@@ -1,0 +1,52 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+/* Home page */
+.homeContainer {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+
+}
+.navMenu {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid black;
+    gap: 10px;
+    text-decoration: none;
+    padding: 10px;
+}
+.links {
+    text-decoration: none;
+    cursor: pointer;
+    color: black;
+}
+
+.links:hover {
+    color: grey;
+    border-bottom: 1px solid grey;
+}
+/* Log in page */
+.register-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    border: 2px solid black;
+   height: 200px;
+}
+
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    border: 2px solid black;
+    height: 200px;
+   
+}
