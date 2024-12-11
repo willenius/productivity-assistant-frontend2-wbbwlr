@@ -5,6 +5,17 @@ import EventCalendar from "./EventCalendar";
 import { Link } from "react-router-dom";
 
 let HomePage = () => {
+    // State för localStorage
+    let [items,setItems] = useState([]);
+    // Hämtar användare ifrån localstorage
+    useEffect(() => {
+        const storedData = JSON.parse(localStorage.getItem('userData'));
+        if (storedData) {
+            console.log(storedData)
+            setItems(storedData);
+        }
+    },[])
+
     const [greeting, setGreeting] = useState([])
     useEffect(() => {
         let apiGreeting = async () => {
@@ -15,7 +26,7 @@ let HomePage = () => {
         }
         apiGreeting()
     }, [])
-
+ 
     return (
         <div>
             <div className="homeContainer">

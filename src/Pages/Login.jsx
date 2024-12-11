@@ -29,18 +29,14 @@ let Login = () => {
         const data = { username, password };
         localStorage.setItem('userData', JSON.stringify(data));
 
-        // skickar data ifrån localstorage till vårt items state. -------------------------
+        // skickar data ifrån localstorage till vårt items state.
         const storedData = JSON.parse(localStorage.getItem('userData'));
         if (storedData) {
+            
+            console.log(storedData);
             setItems(storedData);
         }
-        console.log(items)
      }
-
-    // useEffect för att köra items med uppdaterat värde ifrån localstorage.
-    useEffect(() => {
-        console.log(items)
-    },[items])
 
     // funktion för att växla mellan register account och login.
     let showLogInForm = () => {
