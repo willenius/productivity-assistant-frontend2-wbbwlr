@@ -4,25 +4,25 @@ let Todo = () => {
 
 //här är min array där jag samlar de flesta todo:sen. min tanke med objekten i den är att destructa ut de för att sedan låta användare välja själv med hjälp av inputs.
     const todoList = [{
-        title: ["Science project"],
+        title: "Science project",
         description: "Finish your science project about atoms",
-        category: ["School"],
+        category: "School",
         completed: [true, false],
         timeEstimate: [],
         deadline: [],
     },
     {
-        title: ["Work task"],
-        description: ["Complete the excel sheet your boss asked for"],
-        category: ["Work"],
+        title: "Work task",
+        description: "Complete the excel sheet your boss asked for",
+        category: "Work",
         completed: [true, false],
         timeEstimate: [],
         deadline: [],
     },
     {
-        title: ["Chores"],
-        description: ["Clean up the kitchen, it's long overdue"],
-        category: ["Cleaning"],
+        title: "Chores",
+        description: "Clean up the kitchen, it's long overdue",
+        category:"Cleaning",
         completed: [true, false],
         timeEstimate: [],
         deadline: [],
