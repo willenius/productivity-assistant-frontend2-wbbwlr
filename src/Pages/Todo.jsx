@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import AddTodoList from "../components/addTodo";
 
 let Todo = () => {
   //states för tasks
@@ -23,10 +24,10 @@ let Todo = () => {
   ];
 
   //state för att visa mer information. (toggle)
-  const [showMore, setShowMore] = useState(false);
+  /* const [showMore, setShowMore] = useState(false);
   let toggleBtn = () => {
     setShowMore((showMore) => !showMore);
-  };
+  }; */
 
   //State för localStorage
   let [items, setItems] = useState([]);
@@ -41,7 +42,8 @@ let Todo = () => {
 
   return (
     <>
-      <h1 style={{ textAlign: "center", color: "blue" }}> ToDo</h1>
+      <h1 style={{ textAlign: "center", color: "black" }}> ToDo</h1>
+      <AddTodoList />
       <ul>
         <form
           style={{
@@ -78,36 +80,33 @@ let Todo = () => {
           </select>
 
           <br></br>
+
           <label htmlFor="timeEstimate">Time estimate</label>
           <select id="timeEstimate" name="timeEstimate">
-            <option value="1">15min</option>
+            <option value="1">
+              {" "}
+              15min
+            </option>
             <option value="2">30min</option>
             <option value="2">45min</option>
             <option value="3">1h</option>
           </select>
           <br></br>
+
           <label htmlFor="deadline">
             Deadline, latest due <br></br>
             <input type="date" id="deadline" name="deadline"></input>
           </label>
+          <label htmlFor="completed">
+            <p> Completed
+            <input type="checkbox" id="checkbox" name="checkbox"></input>
+            </p>
+           {/* här ska du göra en "done" knapp sen */}
+          </label>
         </form>
         {/* desctruct för att skriva ut ärenden/todos. här kommer jag fylla på med */}
-        {todoList.map(({ category }, listArray) => (
-          <li key={listArray}>
-            <div className="todoClass">
-              <p>
-                {" "}
-                <strong> {category}</strong>: {title}
-              </p>
-              {/* ternary operator för att kalla på mitt useState */}
-              {showMore && <p>{description} </p>}
-              <button onClick={toggleBtn}>
-                {" "}
-                {showMore ? "Show less" : "Show More"}
-              </button>
-            </div>
-          </li>
-        ))}
+        
+      
       </ul>
     </>
   );
