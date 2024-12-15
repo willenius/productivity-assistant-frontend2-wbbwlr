@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import AddTodoList from "../components/addTodo";
+import AddTodoList from "../components/AddTodoList";
 
 let Todo = () => {
   //states för tasks
