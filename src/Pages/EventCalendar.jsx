@@ -12,7 +12,7 @@ let EventCalendar = () => {
     let [event, setEvent] = useState([]);
 
     // state för editBtn så att ett edit fält ska visas ut.
-    let [isEditing,setIsEditing] = useState(null);
+    let [isEditing, setIsEditing] = useState(null);
 
     // State för localStorage
     let [items, setItems] = useState([]);
@@ -55,9 +55,18 @@ let EventCalendar = () => {
             // updatedArray och sen lägga in det i event state
             let eventObject = { eventName, eventStartDate, eventEndDate, eventStartTime, eventEndTime }
             console.log(eventObject)
-            let updatedArray = [...event]
-            updatedArray.push(eventObject);
-            console.log(updatedArray)
+            //ger updtadetArray värdet av event och eventObject.
+            let updatedArray = [...event, eventObject]
+
+            // Sortera listan baserat på startdate och starttime 
+            updatedArray.sort((a, b) => {
+                const dateA = new Date(`${a.eventStartDate} ${a.eventStartTime}`);
+                const dateB = new Date(`${b.eventStartDate} ${b.eventStartTime}`);
+                // Sortera i ordning så att närmaste datumet blir först
+                return (
+                    dateA - dateB
+                )  
+            });
             setEvent(updatedArray);
             // tömmer alla inputs efter att man har skickat in sitt event. (med hjälp value={inputetsState})
             SetEventName(``)
@@ -88,10 +97,19 @@ let EventCalendar = () => {
         const updatedEvents = event.map((event, index) => {
             if (isEditing === index) {
                 // Uppdatera det valda eventet
-                return updatedEvent; 
+                return updatedEvent;
             } else {
                 return event;
             }
+        });
+         // Sortera listan baserat på startdate och starttime 
+         updatedEvents.sort((a, b) => {
+            const dateA = new Date(`${a.eventStartDate} ${a.eventStartTime}`);
+            const dateB = new Date(`${b.eventStartDate} ${b.eventStartTime}`);
+            // Sortera i ordning så att närmaste datumet blir först
+            return (
+                dateA - dateB
+            )  
         });
         setEvent(updatedEvents);
         setIsEditing(null)
@@ -105,6 +123,16 @@ let EventCalendar = () => {
     //Delete button funktion
     let deleteBtn = (index) => {
         const updatedEvents = event.filter((events, i) => i !== index);
+
+         // Sortera listan baserat på startdate och starttime 
+         updatedEvents.sort((a, b) => {
+            const dateA = new Date(`${a.eventStartDate} ${a.eventStartTime}`);
+            const dateB = new Date(`${b.eventStartDate} ${b.eventStartTime}`);
+            // Sortera i ordning så att närmaste datumet blir först
+            return (
+                dateA - dateB
+            )  
+        });
         //uppdaterar state med det nya som tagit bort de valda eventet.
         setEvent(updatedEvents)
     }
@@ -135,29 +163,29 @@ let EventCalendar = () => {
                         <p><strong>start och slut datum</strong>: {events.eventStartDate} / {events.eventEndDate}</p>
                         <p><strong>start och slut tid</strong>: {events.eventStartTime} / {events.eventEndTime}</p>
                         {/* i min editBtn skickar jag med indexet för varje enskilt eventet */}
-                        <button onClick={() => {editBtn(index)}}>Edit</button>
+                        <button onClick={() => { editBtn(index) }}>Edit</button>
                         {/* delete knapp */}
-                        <button onClick={() => {deleteBtn(index)}}>Delete</button>
-                        
-                        {isEditing === index ?  (
-                             <div>
-                             {/* här låter jag användaren gör edits på värden som redan skickats in,
+                        <button onClick={() => { deleteBtn(index) }}>Delete</button>
+
+                        {isEditing === index ? (
+                            <div>
+                                {/* här låter jag användaren gör edits på värden som redan skickats in,
                               value ger inputsen värden som tidigare skickats in */}
-                             <input  onChange={eventNameInput} type="text"  placeholder={events.eventName}></input><br/>
-                             <label htmlFor="start-date">Start date</label> <br/>
-                             <input onChange={startDate} type="date" id="start-date" name="start-date" value={events.eventStartDate}></input><br/>
-                             <label htmlFor="end-date">End date</label> <br/>
-                             <input onChange={endDate} type="date" id="end-date" name="end-date" value={events.eventEndDate}></input><br/>
-                             <label htmlFor="start-time">Start time</label><br />
-                             <input onChange={startTime} type="time" id="start-time" name="start-time" value={events.eventStartTime}></input><br />
-                             <label htmlFor="end-time">End time</label><br />
-                             <input onChange={endTime} type="time" id="end-time" name="end-time" value={events.eventEndTime}></input>
-                             {/* Save knapp för att ta hand om de nya värderna samt göra om isEditing state till null igen. */}
-                             <button onClick={() =>{saveEditBtn(index)}}>Save</button>
-                         </div>
-                        //  när man klickat på save knappen så ges isEditing värdet null igen, så att redigera fältet inte syns.
+                                <input onChange={eventNameInput} type="text" placeholder={events.eventName}></input><br />
+                                <label htmlFor="start-date">Start date</label> <br />
+                                <input onChange={startDate} type="date" id="start-date" name="start-date" value={events.eventStartDate}></input><br />
+                                <label htmlFor="end-date">End date</label> <br />
+                                <input onChange={endDate} type="date" id="end-date" name="end-date" value={events.eventEndDate}></input><br />
+                                <label htmlFor="start-time">Start time</label><br />
+                                <input onChange={startTime} type="time" id="start-time" name="start-time" value={events.eventStartTime}></input><br />
+                                <label htmlFor="end-time">End time</label><br />
+                                <input onChange={endTime} type="time" id="end-time" name="end-time" value={events.eventEndTime}></input>
+                                {/* Save knapp för att ta hand om de nya värderna samt göra om isEditing state till null igen. */}
+                                <button onClick={() => { saveEditBtn(index) }}>Save</button>
+                            </div>
+                            //  när man klickat på save knappen så ges isEditing värdet null igen, så att redigera fältet inte syns.
                         ) : (null)
-                           
+
                         }
                     </div>
                 )
