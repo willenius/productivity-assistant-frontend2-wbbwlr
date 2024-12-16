@@ -41,18 +41,18 @@ let Todo = () => {
 
   return (
     <>
-      <h1 style={{ textAlign: "center", color: "blue" }}> ToDo</h1>
+    <h1 style={{ textAlign: "center", color: "blue" }}> ToDo</h1>
       <ul>
-        <form
+        <form>
           style={{
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
             flexDirection: "column",
           }}
-        >
+        
           {/* inputs för att användaren själv ska kunna lägga till tasks/todos */}
-          <label htmlFor="title">Title:</label>
+        <label htmlFor="title">Title:</label>
           <input
             type="text"
             placeholder="Chores, school, work..."
@@ -61,16 +61,11 @@ let Todo = () => {
           ></input>
           <br></br>
 
-          <label htmlFor="description">Description:</label>
-          <input
-            type="text"
-            placeholder="What are you up to?"
-            id="description"
-            name="description"
-          ></input>
+        <label htmlFor="description">Description:</label>
+          <input type="text" placeholder="What are you up to?" id="description" name="description"></input>
           <br></br>
 
-          <label htmlFor="category">Category:</label>
+        <label htmlFor="category">Category:</label>
           <select name="category">
             <option value="workout">Workout</option>
             <option value="health">Health</option>
@@ -78,7 +73,7 @@ let Todo = () => {
           </select>
 
           <br></br>
-          <label htmlFor="timeEstimate">Time estimate</label>
+        <label htmlFor="timeEstimate">Time estimate</label>
           <select id="timeEstimate" name="timeEstimate">
             <option value="1">15min</option>
             <option value="2">30min</option>
@@ -86,11 +81,11 @@ let Todo = () => {
             <option value="3">1h</option>
           </select>
           <br></br>
-          <label htmlFor="deadline">
+        <label htmlFor="deadline">
             Deadline, latest due <br></br>
             <input type="date" id="deadline" name="deadline"></input>
           </label>
-        </form>
+      </form>
         {/* desctruct för att skriva ut ärenden/todos. här kommer jag fylla på med */}
         {todoList.map(({ category }, listArray) => (
           <li key={listArray}>
@@ -99,7 +94,7 @@ let Todo = () => {
                 {" "}
                 <strong> {category}</strong>: {title}
               </p>
-              {/* ternary operator för att kalla på mitt useState */}
+              {/* ternary operator för att kalla på mitt useState, som jag ska ta bort pga detta är helt useless just nu x) */}
               {showMore && <p>{description} </p>}
               <button onClick={toggleBtn}>
                 {" "}
