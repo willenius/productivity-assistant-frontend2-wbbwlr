@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import AddTodoList from "../components/AddTodoList";
 
 let Todo = () => {
   //states för tasks
@@ -23,10 +24,10 @@ let Todo = () => {
   ];
 
   //state för att visa mer information. (toggle)
-  const [showMore, setShowMore] = useState(false);
+  /* const [showMore, setShowMore] = useState(false);
   let toggleBtn = () => {
     setShowMore((showMore) => !showMore);
-  };
+  }; */
 
   //State för localStorage
   let [items, setItems] = useState([]);
@@ -41,7 +42,8 @@ let Todo = () => {
 
   return (
     <>
-    <h1 style={{ textAlign: "center", color: "blue" }}> ToDo</h1>
+      <h1 style={{ textAlign: "center", color: "black" }}> ToDo</h1>
+      <AddTodoList />
       <ul>
         <form>
           style={{
@@ -75,7 +77,10 @@ let Todo = () => {
           <br></br>
         <label htmlFor="timeEstimate">Time estimate</label>
           <select id="timeEstimate" name="timeEstimate">
-            <option value="1">15min</option>
+            <option value="1">
+              {" "}
+              15min
+            </option>
             <option value="2">30min</option>
             <option value="2">45min</option>
             <option value="3">1h</option>
