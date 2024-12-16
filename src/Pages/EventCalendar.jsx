@@ -45,6 +45,16 @@ let EventCalendar = () => {
     let endTime = (e) => {
         setEventEndTime(e.target.value);
     }
+
+    // Kollar om ett event redan infallit dvs har datumet eller tiden passerat.
+    const isEventPast = (eventStartDate, eventStartTime) => {
+        const eventDate = new Date(`${eventStartDate} ${eventStartTime}`);
+        const now = new Date();
+        //returnerar en boolean true eller false, om eventDate är mindre än now 
+        //så har datumet redan passerat och det kommer skicka enn boolean av true.
+        return eventDate < now;
+    };
+
     // knapp som triggar en push av alla inputs states in i mitt event state.
     let createEvent = () => {
         // if sats för att kolla så att alla inputfälten har ett värde.
@@ -157,8 +167,11 @@ let EventCalendar = () => {
             <button onClick={createEvent}>Create Event</button>
 
             {event.map((events, index) => {
+                // kollar om datumet som användaren skickat in har passerat eller ej, 
+                 const isPast = isEventPast(events.eventStartDate, events.eventStartTime);
                 return (
-                    <div key={index}>
+                    // om ett event har datum som passerat dagens datum kommer de få klassnamnet past-event.
+                    <div key={index} className={isPast ? 'past-event' : ''}>
                         <p><strong>{events.eventName}</strong></p>
                         <p><strong>start och slut datum</strong>: {events.eventStartDate} / {events.eventEndDate}</p>
                         <p><strong>start och slut tid</strong>: {events.eventStartTime} / {events.eventEndTime}</p>

@@ -50,3 +50,10 @@ body {
     height: 200px;
    
 }
+
+
+/* EventCalendar */
+.past-event {
+    color: grey; /* Gör texten grå */
+    text-decoration: line-through; 
+}
