@@ -71,17 +71,17 @@ let EventCalendar = () => {
             //ger updtadetArray värdet av event och eventObject.
             let updatedArray = [...event, eventObject]
 
-            // LOCALSTORAGE-----------------------------------------------------
-            // const storedData = JSON.parse(localStorage.getItem('userData'));
-            // if (storedData) {
-            //      // Uppdatera eventlistan
-            //     const updatedData = [...storedData] 
-            //  // Spara tillbaka den uppdaterade datan till localStorage
-            // localStorage.setItem('userData', JSON.stringify(updatedData));
-            // // Uppdatera state för att reflektera förändringen
-            // setItems(updatedData);
+            //LOCALSTORAGE-----------------------------------------------------
+            const storedData = JSON.parse(localStorage.getItem('userData'));
+            if (storedData) {
+                 // Uppdatera localstorage med key events som har värdet från event state. 
+                storedData.events = updatedArray;
+             // Spara tillbaka den uppdaterade datan till localStorage
+            localStorage.setItem('userData', JSON.stringify(storedData));
+            // Uppdatera state för att reflektera förändringen
+            setItems(storedData);
+            }
 
-            // }
             // Sortera listan baserat på startdate och starttime 
             updatedArray.sort((a, b) => {
                 const dateA = new Date(`${a.eventStartDate} ${a.eventStartTime}`);
