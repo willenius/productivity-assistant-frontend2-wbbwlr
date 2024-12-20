@@ -13,18 +13,17 @@ const HabitFilters = () => {
   } = useContext(HabitsContext);
 
   return (
-    <div>
-      <h3>Filter & Sortering</h3>
-      <label htmlFor="priorityFilter">Filtrera på prioritet:</label>
+    <div className="filterMenu">
+      <label htmlFor="priorityFilter">Filter</label>
       <select
         id="priorityFilter"
         value={filterPriority}
         onChange={(e) => setFilterPriority(e.target.value)}
       >
         <option value="">Alla</option>
-        <option value="Låg">Låg</option>
-        <option value="Mellan">Mellan</option>
-        <option value="Hög">Hög</option>
+        <option value="Låg">Låg prioritet</option>
+        <option value="Mellan">Mellan prioritet</option>
+        <option value="Hög">Hög prioritet</option>
       </select>
 
       <label htmlFor="sortField">Sortera efter:</label>
@@ -44,6 +43,7 @@ const HabitFilters = () => {
         value={sortOrder}
         onChange={(e) => setSortOrder(e.target.value)}
       >
+        <option value="">Ingen</option>
         <option value="ascending">Stigande</option>
         <option value="descending">Fallande</option>
       </select>

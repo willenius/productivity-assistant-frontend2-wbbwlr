@@ -8,13 +8,11 @@ const HabitForm = () => {
 
   return (
     <>
-      <form>
+    <div className="habitFormContainer">
+      <form className="habitForm">
         <input type="text" placeholder="Titel" value={title} onChange={(e) => setTitle(e.target.value)}/>
         <input type="number" placeholder="Repetitioner" value={reps} onChange={(e) => setReps(e.target.value)}/>
 
-        <br />
-
-        <label htmlFor="priority">Prioritet: </label>
         <select id="priority" name="priority" value={priority} onChange={(e) => setPriority(e.target.value)}>
           <option value="">Välj prioritet</option>
           <option value="Låg">Låg</option>
@@ -22,7 +20,8 @@ const HabitForm = () => {
           <option value="Hög">Hög</option>
         </select>
       </form>
-      <button onClick={createHabit}>Klar</button>
+      <button className="postHabitsBtn" onClick={createHabit}>Klar</button>
+    </div>
     </>
   );
 };

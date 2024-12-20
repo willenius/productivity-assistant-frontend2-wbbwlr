@@ -14,7 +14,7 @@ const HabitList = () => {
 
   // Sortering
   const sortedHabits = [...filteredHabits].sort((a, b) => {
-    if (!sortField) return 0;
+    if (!sortField || !sortOrder) return 0;
 
     if (sortField === "reps") {
       return sortOrder === "ascending" ? a.reps - b.reps : b.reps - a.reps;
@@ -28,15 +28,18 @@ const HabitList = () => {
   });
 
   return (
-    <ul>
+    <ul className="renderedHabits">
       {sortedHabits.map((habit) => (
         <li key={habit.id}>
-          <strong>
-            {habit.title}, Prioritet: {habit.priority}, Repetitioner: {habit.reps}
-          </strong>
-          <button onClick={() => increaseReps(habit.id)}>+</button>
-          <button onClick={() => decreaseReps(habit.id)}>-</button>
-          <button onClick={() => deleteHabit(habit.id)}>X</button>
+          <p>
+            {habit.title}, <br></br>
+            Prioritet: {habit.priority}, <br></br>
+            Repetitioner: {habit.reps} 
+            <button onClick={() => increaseReps(habit.id)}>+</button>  
+            <button onClick={() => decreaseReps(habit.id)}>-</button>
+          </p>
+          <button className="deleteHabitBtn" onClick={() => deleteHabit(habit.id)}>ta bort</button>
+          <hr></hr>
         </li>
       ))}
     </ul>
