@@ -1,7 +1,8 @@
 body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    align-items: center;      
+    margin: 0; 
+    background-color: rgb(105, 141, 163);
+
 }
 /* Home page */
 .homeContainer {
@@ -58,3 +59,92 @@ body {
     text-decoration: line-through; 
 }
 
+/* Habits css */
+
+
+.habitsHeadline {
+    text-align: center;
+    color: aliceblue;
+}
+
+.habitInputs{
+    
+}
+
+.habitFormContainer {
+    display: flex; 
+    align-items: center; 
+    gap: 10px; 
+}
+
+.habitForm {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+    
+    
+    
+}
+
+.habitsContainer {
+    background-color: white;
+    margin: 0 auto;
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 90%;
+    min-width: 500px;
+    max-width: 700px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+   
+    
+
+
+.filterMenu {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1rem;
+    gap: 0.5rem;
+}
+
+.titleInput {
+        height: 1.2rem;
+}
+
+.postHabitsBtn {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.postHabitsBtn:hover {
+    border: 1px solid black;
+}
+
+.deleteHabitBtn {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.deleteHabitBtn:hover {
+    border: 1px solid black;
+}
+
+.renderedHabits {
+    
+    
+}
+
+#priority {
+    text-align: center;
+}
