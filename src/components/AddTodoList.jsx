@@ -92,6 +92,7 @@ let AddTodoList = () => {
     setTodoDescription("");
     setTodoCategory("");
     setTodoTimeEstimate("");
+    setDeadline(``);
   };
 
   //filtreringsfunktion. 
@@ -142,7 +143,6 @@ let saveEditingBtn = () => {
     {
       return updatedTodo;
     }
-    console.log(updatedTodos)
       return todo;
   });
   setTodos(updatedTodos)
@@ -193,37 +193,34 @@ let saveEditingBtn = () => {
           <option value="Health">Health</option>
           <option value="Work">Work</option>
           <option value="Chores">Chores</option>
-      </select>
-      <select name="status" value={todoFilter.status} onChange={filterHandleChange}>
-        <option>Completed</option>
-        <option>Not done</option>
-      </select>
+          </select>
       </div>
         {/* sortering på deadline, tids estimering och status*/}
         <select value={sortOption} onChange={(e) => setSortOption(e.target.value)}>
-        <option>Deadline</option>
-        <option>Time estimate</option>
-        <option>Status</option>
-      </select>
+          <option value="">Sort</option>
+          <option value="deadline">Deadline</option>
+          <option value="timeEstimate">Time estimate</option>
+          <option value="status">Status</option>
+</select>
       {/* Här skriver jag sen ut hela listan baserat på inputs */}
       {/* märkte rätt snabbt att utan destructure så behövde jag skriva todo.todoCategory etc, blev lite mer "lättläst" efter det */}
       <div className="todoDiv">
         {sortedTodos.map((todo, index) => {
-            let { todoTitle, todoDescription, todoCategory, timeEstimate, todoDeadline } = todo;
+            let { todoTitle, todoDescription, todoCategory, todoTimeEstimate, todoDeadline } = todo;
           return (
           <ul className="todoUL" key={index}>
             <h2>{todoTitle}</h2>
             <p>{todoDescription}</p>
             <p>Category: {todoCategory}</p>
-            <p> {timeEstimate}</p>
+            <p> {todoTimeEstimate}</p>
             <p>Deadline: {todoDeadline}</p>
             <label>
-              <button id="statusBtn" onClick={() => toggleStatus(index)}>Done</button>
-                Done {todo.status ? "Completed" : "Not completed"}
+              <button id="statusBtn" onClick={() => toggleStatus(index)}>Done</button> {todo.status ? "Completed" : "Not completed"}
             </label>
             <button id="editingBtn" onClick={() => {editTodo(index)}}>Edit</button>
             <button id="deleteTodoBtn" onClick={() => {deleteTodo(index)}}>Delete</button>
-        
+            <br></br>
+            <button onClick={saveEditingBtn}>Save edits</button>
             {/* här är min editing funktion. dvs, när "add to-do" är klickat, så visas edit-formuläret */}
             {editing === index ? (
                 <div>
@@ -235,8 +232,15 @@ let saveEditingBtn = () => {
                     <option>Work</option>
                     <option>Chores</option>
                   </select>
-                  <input type="date" onChange={handleDeadlineChange} placeholder={todoDeadline} />
-                  <button onClick={saveEditingBtn}>Save edits</button>
+                <select onChange={handleTimeEstimateChange}>
+                  <option> Estimated time:</option>
+                   <option>30min</option>
+                  <option>45min</option>
+                  <option>1h</option>
+                  <option>2h</option>
+                  <option>4h</option>
+                  </select>
+                  <input type="date" onChange={handleDeadlineChange} placeholder={todoDeadline}/>
                 </div>
               ) : null}
            </ul>
