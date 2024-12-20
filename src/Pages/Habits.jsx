@@ -40,6 +40,16 @@ const Habits = () => {
     setTitle("");
     setReps("");
     setPriority("");
+
+    const storedData = JSON.parse(localStorage.getItem('userData'));
+    if (storedData) {
+         // Uppdatera localstorage med key events som har värdet från event state. 
+        storedData.habits = habitObject
+     // Spara tillbaka den uppdaterade datan till localStorage
+    localStorage.setItem('userData', JSON.stringify(storedData));
+    // Uppdatera state för att reflektera förändringen
+    setItems(storedData);
+    }
   };
 
   // Öka reps

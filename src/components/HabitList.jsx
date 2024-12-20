@@ -25,6 +25,8 @@ const HabitList = () => {
         : priorityOrder.indexOf(b.priority) - priorityOrder.indexOf(a.priority);
     }
     return 0;
+
+    
   });
 
   return (

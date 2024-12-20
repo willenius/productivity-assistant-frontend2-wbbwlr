@@ -113,24 +113,24 @@ body {
 
 .postHabitsBtn {
     padding: 5px 10px;
-    border: none;
     border-radius: 5px;
     cursor: pointer;
+    border: 1px solid transparent;
 }
 
 .postHabitsBtn:hover {
-    border: 1px solid black;
+    border-color: black;
 }
 
 .deleteHabitBtn {
     padding: 5px 10px;
-    border: none;
     border-radius: 5px;
     cursor: pointer;
+    border: 1px solid transparent;
 }
 
 .deleteHabitBtn:hover {
-    border: 1px solid black;
+    border-color: black;
 }
 
 .renderedHabits {
