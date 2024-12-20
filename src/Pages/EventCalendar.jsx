@@ -8,6 +8,9 @@ let EventCalendar = () => {
     let [eventStartTime, setEventStartTime] = useState('')
     let [eventEndTime, setEventEndTime] = useState('')
 
+    //State för filtrering
+    let [filterPriority, setFilterpriority] = useState([])
+
     //State som array av alla  samlade inputs
     let [event, setEvent] = useState([]);
 
@@ -24,7 +27,7 @@ let EventCalendar = () => {
             console.log(storedData)
             setItems(storedData);
         }
-    }, [])
+    }, []) 
 
     let eventNameInput = (e) => {
         SetEventName(e.target.value);
@@ -68,6 +71,17 @@ let EventCalendar = () => {
             //ger updtadetArray värdet av event och eventObject.
             let updatedArray = [...event, eventObject]
 
+            // LOCALSTORAGE-----------------------------------------------------
+            // const storedData = JSON.parse(localStorage.getItem('userData'));
+            // if (storedData) {
+            //      // Uppdatera eventlistan
+            //     const updatedData = [...storedData] 
+            //  // Spara tillbaka den uppdaterade datan till localStorage
+            // localStorage.setItem('userData', JSON.stringify(updatedData));
+            // // Uppdatera state för att reflektera förändringen
+            // setItems(updatedData);
+
+            // }
             // Sortera listan baserat på startdate och starttime 
             updatedArray.sort((a, b) => {
                 const dateA = new Date(`${a.eventStartDate} ${a.eventStartTime}`);
@@ -75,7 +89,7 @@ let EventCalendar = () => {
                 // Sortera i ordning så att närmaste datumet blir först
                 return (
                     dateA - dateB
-                )  
+                )
             });
             setEvent(updatedArray);
             // tömmer alla inputs efter att man har skickat in sitt event. (med hjälp value={inputetsState})
@@ -112,14 +126,14 @@ let EventCalendar = () => {
                 return event;
             }
         });
-         // Sortera listan baserat på startdate och starttime 
-         updatedEvents.sort((a, b) => {
+        // Sortera listan baserat på startdate och starttime 
+        updatedEvents.sort((a, b) => {
             const dateA = new Date(`${a.eventStartDate} ${a.eventStartTime}`);
             const dateB = new Date(`${b.eventStartDate} ${b.eventStartTime}`);
             // Sortera i ordning så att närmaste datumet blir först
             return (
                 dateA - dateB
-            )  
+            )
         });
         setEvent(updatedEvents);
         setIsEditing(null)
@@ -134,18 +148,64 @@ let EventCalendar = () => {
     let deleteBtn = (index) => {
         const updatedEvents = event.filter((events, i) => i !== index);
 
-         // Sortera listan baserat på startdate och starttime 
-         updatedEvents.sort((a, b) => {
+        // Sortera listan baserat på startdate och starttime 
+        updatedEvents.sort((a, b) => {
             const dateA = new Date(`${a.eventStartDate} ${a.eventStartTime}`);
             const dateB = new Date(`${b.eventStartDate} ${b.eventStartTime}`);
             // Sortera i ordning så att närmaste datumet blir först
             return (
                 dateA - dateB
-            )  
+            )
         });
         //uppdaterar state med det nya som tagit bort de valda eventet.
         setEvent(updatedEvents)
     }
+
+    // onchange för filter selecten.
+    let changeFilter = (e) => {
+        if (e.target.value === "Upcoming events") {
+            console.log(e.target.value)
+            upcomingEv();
+        } else if (e.target.value === "Previous events") {
+            console.log(e.target.value)
+            previousEv();
+        } else {
+            console.log(e.target.value)
+
+        }
+    }
+    //Funktion för filtreringsfunktioner. (Skulle dagens datum vara mindre än de inskickade datumet 
+    //så har eventet inte skett än och filterPrioroty sätts till upcoming)
+    let upcomingEv = () => {
+        const today = new Date().getTime();
+        // upcomming får värderna av event.filter, (event mapas igenom och kan därför läggas ner i mitt state som array)
+        const upcoming = event.filter(events => {
+            const eventStart = new Date(events.eventStartDate)
+            //jämför startdatum och starttid för de inskickade värderna med dagens datum.
+            return (
+                eventStart >= today
+            )
+        });
+        setFilterpriority(upcoming);
+    }
+
+    // funktion för previous Event (Skulle dagens datum var större än de inskickade datumet 
+    //så har eventet redan skett och filterPrioroty sätts till previous)
+    let previousEv = () => {
+        const today = new Date().getTime();
+        // previous får värderna av event.filter, (event mapas igenom och kan därför läggas ner i mitt state som array)
+        const previous = event.filter(events => {
+            const eventStart = new Date(events.eventStartDate)
+            // jämför värderna med dagens datum och tid.
+            return (
+                eventStart < today
+            )
+        });
+        setFilterpriority(previous);
+    }
+    useEffect(() => {
+        setFilterpriority(event);
+    }, [event]);
     return (
         <div className="event-container">
             <h1>Event Calendar</h1>
@@ -165,10 +225,17 @@ let EventCalendar = () => {
                 </div>
             </form>
             <button onClick={createEvent}>Create Event</button>
+            {/* filter knapp */}
+            <select onChange={changeFilter}>
+                <option >Filter</option>
+                <option >Upcoming events</option>
+                <option >Previous events</option>
+            </select>
 
-            {event.map((events, index) => {
+            {/* {event.map((events, index) => { */}
+            {filterPriority.length > 0 ? filterPriority.map((events, index) => {
                 // kollar om datumet som användaren skickat in har passerat eller ej, 
-                 const isPast = isEventPast(events.eventStartDate, events.eventStartTime);
+                const isPast = isEventPast(events.eventStartDate, events.eventStartTime);
                 return (
                     // om ett event har datum som passerat dagens datum kommer de få klassnamnet past-event.
                     <div key={index} className={isPast ? 'past-event' : ''}>
@@ -201,8 +268,8 @@ let EventCalendar = () => {
 
                         }
                     </div>
-                )
-            })}
+                );
+            }) : <p>No filter selected.</p>}
         </div>
     )
 }

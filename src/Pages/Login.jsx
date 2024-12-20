@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 let Login = () => {
     //vår localStorage state
@@ -8,6 +8,11 @@ let Login = () => {
     let [username,setUsername] = useState(``);
 
     let [password,setPassword] = useState(``);
+
+    let [error,setError] = useState(false)
+
+    // state för navigation till homePage
+    const navigate = useNavigate()
 
     //state för att växla mellan register och login
     let [showLogIn, setShowLogin] = useState(false);
@@ -24,7 +29,9 @@ let Login = () => {
      }
 
      // registerData funktion tar hand om all sparad information om register
-    let registerData = () => {
+    let registerData = (e) => {
+
+        e.preventDefault();
         //ger data värdet av username och passwword samt skickar in det till localstorage med "userdata" som key.
         const data = { username, password };
         localStorage.setItem('userData', JSON.stringify(data));
@@ -35,6 +42,25 @@ let Login = () => {
             
             console.log(storedData);
             setItems(storedData);
+            setShowLogin(!showLogIn)
+        }
+     }
+
+     // log in user funktion, kommer checka om login matchar ett registrerat konto. 
+     let logInUser = (e) => {
+        e.preventDefault();
+
+        const storedData = JSON.parse(localStorage.getItem('userData'));
+        // kollar så att storedData matchar inputsen som användaren lagt till.
+        if (storedData.username === username && storedData.password === password) {
+            console.log("du är inloggad som:",`UserName: ${storedData.username}`,`Password: ${storedData.password}`);
+
+            // navigation till homePage
+             navigate("/HomePage")
+
+            setError(false)
+        } else {
+            setError(!error)
         }
      }
 
@@ -45,10 +71,10 @@ let Login = () => {
     return (
         <div>
             {!showLogIn &&
-                <form className="register-container">
-                    <input onChange={saveUsername} type="text" placeholder="username"></input>
-                    <input onChange={savePassword} type="password" placeholder="Password"></input>
-                   <Link to="/Homepage"><button onClick={registerData} type="submit">Register</button></Link> 
+                <form className="register-container" onSubmit={registerData}>
+                    <input onChange={saveUsername} type="text" placeholder="username" required></input>
+                    <input onChange={savePassword} type="password" placeholder="Password" required></input>
+                    <button type="submit">Register</button>
                 </form>
             }
 
@@ -56,11 +82,16 @@ let Login = () => {
             <button onClick={showLogInForm}>Log in</button>
 
             {showLogIn &&
-                <form className="login-container">
-                    <input type="text" placeholder="username"></input>
-                    <input type="password" placeholder="Password"></input>
+                <form className="login-container" onSubmit={logInUser}>
+                    <input onChange={saveUsername} type="text" placeholder="username" required></input>
+                    <input onChange={savePassword} type="password" placeholder="Password" required></input>
                     <button type="submit">Log in</button>
                 </form>
+            }
+            {error && 
+                <div>
+                    <p>Error! Do not match registerd user</p>
+                </div>
             }
         </div>
     )

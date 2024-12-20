@@ -54,6 +54,7 @@ body {
 
 /* EventCalendar */
 .past-event {
-    color: grey; /* Gör texten grå */
+    color: grey; 
     text-decoration: line-through; 
 }
+
