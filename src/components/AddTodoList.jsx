@@ -95,14 +95,17 @@ let AddTodoList = () => {
     setDeadline(``);
   };
 
-  //filtreringsfunktion. 
+  //filtreringsfunktion
   let filteredTodos = todos.filter((todo) => {
     const matchCategory = todoFilter.category ? todo.todoCategory === todoFilter.category : true;
     const matchStatus = todoFilter.status ? (todoFilter.status === "completed" ? todo.status : !todo.status) : true;
     return matchCategory && matchStatus;
   });
 
-  //jag gör en kopia av filteredtodos m spread. 
+  //jag gör en kopia av filteredtodos m spread.
+  //filtrerar först på deadline (dvs datum), time estimate blir alltså närmaste timman. 
+  //om vi har två todos, en på 1h och en på 4h så kommer den att välja tidsestimeringen närmst.
+  //filtrerar jag på deadline (datum när det senast ska vara klart) så kommer det senaste datumet. ev 
 
   let sortedTodos = [...filteredTodos].sort((a, b) => {
     if (sortOption === "deadline") {
@@ -136,7 +139,17 @@ let editTodo = (index) => {
     setEditing(index)
 }
 //funktion för editknapp. mappar igenom alla mina todos(kategorier) och när edit är klickat så går det att spara.
+
 let saveEditingBtn = () => {
+  const storedData = JSON.parse(localStorage.getItem('userData'));
+            if (storedData) {
+                 // Uppdatera localstorage med key events som har värdet från event state. 
+                storedData.events = updatedTodos;
+             // Spara tillbaka den uppdaterade datan till localStorage
+            localStorage.setItem('userData', JSON.stringify(storedData));
+            // Uppdatera state för att reflektera förändringen
+            setItems(storedData);
+            }
   const updatedTodo = { todoTitle, todoDescription, todoCategory, todoTimeEstimate, todoDeadline, status: todos[editing].status};
   const updatedTodos = todos.map((todo, index) => {
     if (index === editing)
@@ -174,14 +187,7 @@ let saveEditingBtn = () => {
           <option>Work</option>
           <option>Chores</option>
         </select>
-        <select value={todoTimeEstimate} onChange={handleTimeEstimateChange}>
-          <option> Estimated time:</option>
-          <option>30min</option>
-          <option>45min</option>
-          <option>1h</option>
-          <option>2h</option>
-          <option>4h</option>
-        </select>
+        <input type="time" placeholder={todoTimeEstimate} onChange={handleTimeEstimateChange}/>
         </form>
         <input type="date" value={todoDeadline} onChange={handleDeadlineChange}/>
         <button className="addTodoBtn" onClick={addNewTodo}>Add new to-do</button>
@@ -232,14 +238,7 @@ let saveEditingBtn = () => {
                     <option>Work</option>
                     <option>Chores</option>
                   </select>
-                <select onChange={handleTimeEstimateChange}>
-                  <option> Estimated time:</option>
-                   <option>30min</option>
-                  <option>45min</option>
-                  <option>1h</option>
-                  <option>2h</option>
-                  <option>4h</option>
-                  </select>
+                  <input type="time" value={todoTimeEstimate} onChange={handleTimeEstimateChange}/>
                   <input type="date" onChange={handleDeadlineChange} placeholder={todoDeadline}/>
                 </div>
               ) : null}
