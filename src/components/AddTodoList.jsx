@@ -7,13 +7,16 @@ let AddTodoList = () => {
 
   //masterstate, här samlas alla mina inputs och skrivs ut
   let [todos, setTodos] = useState([]);
-
+//inputs för alla mina todos
   let [todoTitle, setTodoTitle] = useState("");
   let [todoCategory, setTodoCategory] = useState("");
   let [todoDescription, setTodoDescription] = useState("");
   let [todoTimeEstimate, setTodoTimeEstimate] = useState("");
   let [todoDeadline, setDeadline] = useState("");
- 
+  let [sortOption, setSortOption] = useState("");
+
+  //state för att visa ut kategori och status
+  let [todoFilter, setTodoFilter] = useState({category: "", status: ""});
 
 //state för edit
   let [editing, setEditing] = useState (null);
@@ -50,32 +53,70 @@ let AddTodoList = () => {
     setDeadline(e.target.value);
   }
 
+  let filterHandleChange = (e) => {
+    const { name, value } = e.target;
+    setTodoFilter((prevFilter) => ({
+      ...prevFilter,
+      [name]: value
+    }));
+  };
+
+
+
   //funktion för att lägga till tasks och för att en användare MÅSTE Skriva in något i sin task. basically, om tomt så kommer det att alertas.
-  //Kommer eventuellt att byta till required
-  //la till prevent default för att sidan ständigt laddades om när jag skapade en ny todo.
+  
   let addNewTodo = () => {
     if (!todoTitle || !todoDescription || !todoCategory || !todoTimeEstimate || !todoDeadline) {
-          return alert("Most fill all fields!");
+      return alert("Must fill all fields!");
     }
-      //skapar nytt todo med värdena från mitt form
+    //innehåll för att skapa en task
     let newTodoObject = {
       todoTitle,
       todoDescription,
       todoCategory,
       todoTimeEstimate,
       status: false,
-      todoDeadline,
+      todoDeadline
     };
-
-    //hämtar vårt nya todo-objekt och skickar in det i todo-listan
-    setTodos([...todos, newTodoObject]);
-
-    //när en användare har skapat en todo så rensas fälten. dvs, när jag vill skapa en ny todo så är de inte ifyllda. valde att spara kvar datum.
+  
+    setTodos(prevTodos => {
+      const updatedTodos = [...prevTodos, newTodoObject];
+      return updatedTodos.sort((a, b) => {
+        let dateA = new Date(`${a.todoDeadline} ${a.todoTimeEstimate}`);
+        let dateB = new Date(`${b.todoDeadline} ${b.todoTimeEstimate}`);
+        return dateA - dateB;
+      });
+    });
+  //för att tömma alla fälten när man har skapat en to-do.
     setTodoTitle("");
     setTodoDescription("");
     setTodoCategory("");
     setTodoTimeEstimate("");
   };
+
+  //filtreringsfunktion. 
+  let filteredTodos = todos.filter((todo) => {
+    const matchCategory = todoFilter.category ? todo.todoCategory === todoFilter.category : true;
+    const matchStatus = todoFilter.status ? (todoFilter.status === "completed" ? todo.status : !todo.status) : true;
+    return matchCategory && matchStatus;
+  });
+
+  //jag gör en kopia av filteredtodos m spread. 
+
+  let sortedTodos = [...filteredTodos].sort((a, b) => {
+    if (sortOption === "deadline") {
+      const dateA = new Date(`${a.todoDeadline} ${a.todoTimeEstimate}`);
+      const dateB = new Date(`${b.todoDeadline} ${b.todoTimeEstimate}`);
+      return dateA - dateB;
+    } else if (sortOption === "timeEstimate") {
+      const timeA = parseInt(a.todoTimeEstimate);
+      const timeB = parseInt(b.todoTimeEstimate);
+      return timeA - timeB;
+      //sorterar status
+    } else if (sortOption === "status") {
+      return a.status - b.status;
+    }
+  });
 
   //ta bort skapad task. underscore använder jag som en placeholder, .
   function deleteTodo(index) {
@@ -93,7 +134,7 @@ let editTodo = (index) => {
     setDeadline(todoToEdit.deadline);
     setEditing(index)
 }
-//funktion för editknapp. mappar igenom alla mina todos(kategorier) och när edit är klickat så går det att spara direkt.
+//funktion för editknapp. mappar igenom alla mina todos(kategorier) och när edit är klickat så går det att spara.
 let saveEditingBtn = () => {
   const updatedTodo = { todoTitle, todoDescription, todoCategory, todoTimeEstimate, todoDeadline, status: todos[editing].status};
   const updatedTodos = todos.map((todo, index) => {
@@ -107,6 +148,7 @@ let saveEditingBtn = () => {
   setTodos(updatedTodos)
   setEditing(null)
 }
+
   //ändra status, om ifylld = klar.
   let toggleStatus = (index) => {
     const updatedStatus = todos.map((todo, i) => {
@@ -117,34 +159,56 @@ let saveEditingBtn = () => {
     });
     setTodos(updatedStatus);
   };
-  // Formulär för att skapa en todo, inputs etc.
+
+
+
   return (
     <>
-      <div className="todo-container">
-        <form>
-        <input type="text" placeholder="Title" value={todoTitle} onChange={handleTitleChange}/>
-        <input type="text" placeholder="Description" value={todoDescription} onChange={handleDescriptionChange}/>
+  <div className="todo-container">
+    <form>
+      <input type="text" placeholder="Title" value={todoTitle} onChange={handleTitleChange}/>
+      <input type="text" placeholder="Description" value={todoDescription} onChange={handleDescriptionChange}/>
         <select id="categoryToDo"value={todoCategory} onChange={handleCategoryChange}>
-          <option>Choose category</option>
+          <option>Choose category:</option>
           <option>Health</option>
           <option>Work</option>
           <option>Chores</option>
         </select>
         <select value={todoTimeEstimate} onChange={handleTimeEstimateChange}>
           <option> Estimated time:</option>
-          <option>15min</option>
           <option>30min</option>
           <option>45min</option>
           <option>1h</option>
+          <option>2h</option>
+          <option>4h</option>
         </select>
         </form>
-        <input type="date" value={todoDeadline} onChange={handleDeadlineChange} />
-        <button className="addTodoBtn" onClick={addNewTodo}>Add To-Do</button>
+        <input type="date" value={todoDeadline} onChange={handleDeadlineChange}/>
+        <button className="addTodoBtn" onClick={addNewTodo}>Add new to-do</button>
+        {/* filter för att söka på kategori, blev mycket hårdkodning över lösningen */}
+        </div>
+        <div>
+        <select name="category" value={todoFilter.category} onChange={filterHandleChange}>
+          <option value="">All categories</option>
+          <option value="Health">Health</option>
+          <option value="Work">Work</option>
+          <option value="Chores">Chores</option>
+      </select>
+      <select name="status" value={todoFilter.status} onChange={filterHandleChange}>
+        <option>Completed</option>
+        <option>Not done</option>
+      </select>
       </div>
+        {/* sortering på deadline, tids estimering och status*/}
+        <select value={sortOption} onChange={(e) => setSortOption(e.target.value)}>
+        <option>Deadline</option>
+        <option>Time estimate</option>
+        <option>Status</option>
+      </select>
       {/* Här skriver jag sen ut hela listan baserat på inputs */}
       {/* märkte rätt snabbt att utan destructure så behövde jag skriva todo.todoCategory etc, blev lite mer "lättläst" efter det */}
       <div className="todoDiv">
-        {todos.map((todo, index) => {
+        {sortedTodos.map((todo, index) => {
             let { todoTitle, todoDescription, todoCategory, timeEstimate, todoDeadline } = todo;
           return (
           <ul className="todoUL" key={index}>
@@ -154,30 +218,29 @@ let saveEditingBtn = () => {
             <p> {timeEstimate}</p>
             <p>Deadline: {todoDeadline}</p>
             <label>
-              <input type="checkbox" checked={todo.status} onChange={() => toggleStatus(index)}/>
-                Status: {todo.status ? "Completed" : "Not done"}
+              <button id="statusBtn" onClick={() => toggleStatus(index)}>Done</button>
+                Done {todo.status ? "Completed" : "Not completed"}
             </label>
             <button id="editingBtn" onClick={() => {editTodo(index)}}>Edit</button>
             <button id="deleteTodoBtn" onClick={() => {deleteTodo(index)}}>Delete</button>
         
-            {/* här är min editing funktion. så n */}
+            {/* här är min editing funktion. dvs, när "add to-do" är klickat, så visas edit-formuläret */}
             {editing === index ? (
                 <div>
                   <input type="text" onChange={handleTitleChange} placeholder={todoTitle}/>
                   <input type="text" onChange={handleDescriptionChange} placeholder={todoDescription}/>
-                  <select value={todoCategory} onChange={handleCategoryChange}>
-                    <option>Choose category</option>
+                  <select onChange={handleCategoryChange} placeholder={todoCategory}>
+                    <option>Choose category:</option>
                     <option>Health</option>
                     <option>Work</option>
                     <option>Chores</option>
                   </select>
+                  <input type="date" onChange={handleDeadlineChange} placeholder={todoDeadline} />
                   <button onClick={saveEditingBtn}>Save edits</button>
                 </div>
-
-
               ) : null}
-            </ul>
-          );
+           </ul>
+        );
         })}
       </div>
     </>
