@@ -151,3 +151,24 @@ body {
 #priority {
     text-align: center;
 }
+/* !!! TODO CSS !!! */
+
+#categoryToDo{
+
+}
+
+.todoDiv {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.todoUL{
+    border: 1px solid black;
+    margin: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;   
+}
