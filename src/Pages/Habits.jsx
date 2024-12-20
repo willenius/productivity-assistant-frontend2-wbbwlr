@@ -14,7 +14,7 @@ const Habits = () => {
     const [habits, setHabits] = useState([]);
     const [filterPriority, setFilterPriority] = useState("");
     const [sortField, setSortField] = useState("");
-    const [sortOrder, setSortOrder] = useState("ascending");
+    const [sortOrder, setSortOrder] = useState("");
     
     // State för localStorage
     let [items, setItems] = useState([]);
@@ -86,9 +86,9 @@ const Habits = () => {
   };
 
   return (
-    <HabitsContext.Provider value={contextValue}>
+      <HabitsContext.Provider value={contextValue}>
+     <h2 className="habitsHeadline">Habits</h2>
       <div className="habitsContainer">
-        <h2>Habits</h2>
         <HabitForm />
         <HabitFilters />
         <HabitList />
