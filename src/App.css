@@ -1,4 +1,7 @@
 body {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
     align-items: center;      
     margin: 0; 
     background-color: rgb(105, 141, 163);
@@ -50,6 +53,13 @@ body {
     border: 2px solid black;
     height: 200px;
    
+}
+
+
+/* EventCalendar */
+.past-event {
+    color: grey; 
+    text-decoration: line-through; 
 }
 
 /* Habits css */
@@ -140,4 +150,25 @@ body {
 
 #priority {
     text-align: center;
+}
+/* !!! TODO CSS !!! */
+
+#categoryToDo{
+
+}
+
+.todoDiv {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.todoUL{
+    border: 1px solid black;
+    margin: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;   
 }

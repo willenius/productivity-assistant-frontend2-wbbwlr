@@ -32,7 +32,7 @@ let HomePage = () => {
             <div className="homeContainer">
                 <h1>Home</h1>
                 <nav className="navMenu">
-                    <Link className="links" to="/Todo&Activitys"><p>Todo & Activities</p></Link>
+                    <Link className="links" to="/Todo&Activities"><p>Todo & Activities</p></Link>
                     <Link className="links" to="/Habits"><p>Habits</p></Link>
                     <Link className="links" to="/EventCalendar"><p>Event Calendar</p></Link>
                 </nav>
