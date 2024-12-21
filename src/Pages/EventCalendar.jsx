@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useEffect } from "react";
+import Navbar from "../components/navbar";
 let EventCalendar = () => {
     // states för alla inputs
     let [eventName, SetEventName] = useState(``);
@@ -11,8 +12,19 @@ let EventCalendar = () => {
     //State för filtrering
     let [filterPriority, setFilterpriority] = useState([])
 
-    //State som array av alla  samlade inputs
+    //State som array av alla  samlade inputs - Sätt state till localStorage OM det finns, annars sätt en tom array 
     let [event, setEvent] = useState([]);
+    useEffect(() => {
+        const storedData = JSON.parse(localStorage.getItem('userData'));
+    
+        // Om data finns i userData och det finns ett värde på events key i 
+        //userData ge event state det värdet annars ge event en tom []
+        if (storedData && storedData.events) {
+            setEvent(storedData.events);
+        } else {   
+            setEvent([]);
+        }
+    }, []);
 
     // state för editBtn så att ett edit fält ska visas ut.
     let [isEditing, setIsEditing] = useState(null);
@@ -27,7 +39,7 @@ let EventCalendar = () => {
             console.log(storedData)
             setItems(storedData);
         }
-    }, []) 
+    }, [])
 
     let eventNameInput = (e) => {
         SetEventName(e.target.value);
@@ -74,12 +86,12 @@ let EventCalendar = () => {
             //LOCALSTORAGE-----------------------------------------------------
             const storedData = JSON.parse(localStorage.getItem('userData'));
             if (storedData) {
-                 // Uppdatera localstorage med key events som har värdet från event state. 
+                // Uppdatera localstorage med key events som har värdet från event state. 
                 storedData.events = updatedArray;
-             // Spara tillbaka den uppdaterade datan till localStorage
-            localStorage.setItem('userData', JSON.stringify(storedData));
-            // Uppdatera state för att reflektera förändringen
-            setItems(storedData);
+                // Spara tillbaka den uppdaterade datan till localStorage
+                localStorage.setItem('userData', JSON.stringify(storedData));
+                // Uppdatera state för att reflektera förändringen
+                setItems(storedData);
             }
 
             // Sortera listan baserat på startdate och starttime 
@@ -120,12 +132,24 @@ let EventCalendar = () => {
         const updatedEvent = { eventName, eventStartDate, eventEndDate, eventStartTime, eventEndTime };
         const updatedEvents = event.map((event, index) => {
             if (isEditing === index) {
-                // Uppdatera det valda eventet
+                // Uppdatera det valda eventet, updatedEvent = redigerat event. 
                 return updatedEvent;
             } else {
                 return event;
             }
         });
+
+        //LOCALSTORAGE-----------------------------------------------------
+        const storedData = JSON.parse(localStorage.getItem('userData'));
+        if (storedData) {
+            // Uppdatera localstorage med key events som har värdet från event state. 
+            storedData.events = updatedEvents;
+            // Spara tillbaka den uppdaterade datan till localStorage
+            localStorage.setItem('userData', JSON.stringify(storedData));
+            // Uppdatera state för att reflektera förändringen
+            setItems(storedData);
+        }
+
         // Sortera listan baserat på startdate och starttime 
         updatedEvents.sort((a, b) => {
             const dateA = new Date(`${a.eventStartDate} ${a.eventStartTime}`);
@@ -147,6 +171,17 @@ let EventCalendar = () => {
     //Delete button funktion
     let deleteBtn = (index) => {
         const updatedEvents = event.filter((events, i) => i !== index);
+
+        //LOCALSTORAGE-----------------------------------------------------
+        const storedData = JSON.parse(localStorage.getItem('userData'));
+        if (storedData) {
+            // Uppdatera localstorage med key events som har värdet från event state. 
+            storedData.events = updatedEvents;
+            // Spara tillbaka den uppdaterade datan till localStorage
+            localStorage.setItem('userData', JSON.stringify(storedData));
+            // Uppdatera state för att reflektera förändringen
+            setItems(storedData);
+        }
 
         // Sortera listan baserat på startdate och starttime 
         updatedEvents.sort((a, b) => {
@@ -207,10 +242,12 @@ let EventCalendar = () => {
         setFilterpriority(event);
     }, [event]);
     return (
+        <>
+        <Navbar />
         <div className="event-container">
             <h1>Event Calendar</h1>
-            <form>
-                <input onChange={eventNameInput} type="text" placeholder="Event name..." value={eventName} required></input>
+            <form className="event-form">
+                <input className="event-nameInput" onChange={eventNameInput} type="text" placeholder="Event name..." value={eventName} required></input>
                 <div className="date-container">
                     <label htmlFor="start-date">Start date</label> <br />
                     <input onChange={startDate} type="date" id="start-date" name="start-date" value={eventStartDate} required></input><br />
@@ -224,53 +261,35 @@ let EventCalendar = () => {
                     <input onChange={endTime} type="time" id="end-time" name="end-time" value={eventEndTime} required></input>
                 </div>
             </form>
-            <button onClick={createEvent}>Create Event</button>
+
+            {isEditing === null ? <button className="event-createBtn" onClick={createEvent}>Create Event</button> : <button className="event-saveBtn" onClick={() => { saveEditBtn() }}>Save</button>}
             {/* filter knapp */}
-            <select onChange={changeFilter}>
+            <select className="event-select" onChange={changeFilter}>
                 <option >Filter</option>
                 <option >Upcoming events</option>
                 <option >Previous events</option>
             </select>
 
-            {/* {event.map((events, index) => { */}
             {filterPriority.length > 0 ? filterPriority.map((events, index) => {
                 // kollar om datumet som användaren skickat in har passerat eller ej, 
                 const isPast = isEventPast(events.eventStartDate, events.eventStartTime);
                 return (
                     // om ett event har datum som passerat dagens datum kommer de få klassnamnet past-event.
-                    <div key={index} className={isPast ? 'past-event' : ''}>
-                        <p><strong>{events.eventName}</strong></p>
-                        <p><strong>start och slut datum</strong>: {events.eventStartDate} / {events.eventEndDate}</p>
-                        <p><strong>start och slut tid</strong>: {events.eventStartTime} / {events.eventEndTime}</p>
+                    <div key={index} className={isPast ? 'past-event' : 'future-event'}>
+                        <p className="event-title"><strong>{events.eventName}</strong></p>
+                        <p><strong>start och slut datum</strong>: <span className="event-dates">{events.eventStartDate} / {events.eventEndDate}</span></p>
+                        <p><strong>start och slut tid</strong>: <span className="event-times">{events.eventStartTime} / {events.eventEndTime}</span></p>
                         {/* i min editBtn skickar jag med indexet för varje enskilt eventet */}
-                        <button onClick={() => { editBtn(index) }}>Edit</button>
-                        {/* delete knapp */}
-                        <button onClick={() => { deleteBtn(index) }}>Delete</button>
-
-                        {isEditing === index ? (
-                            <div>
-                                {/* här låter jag användaren gör edits på värden som redan skickats in,
-                              value ger inputsen värden som tidigare skickats in */}
-                                <input onChange={eventNameInput} type="text" placeholder={events.eventName}></input><br />
-                                <label htmlFor="start-date">Start date</label> <br />
-                                <input onChange={startDate} type="date" id="start-date" name="start-date" value={events.eventStartDate}></input><br />
-                                <label htmlFor="end-date">End date</label> <br />
-                                <input onChange={endDate} type="date" id="end-date" name="end-date" value={events.eventEndDate}></input><br />
-                                <label htmlFor="start-time">Start time</label><br />
-                                <input onChange={startTime} type="time" id="start-time" name="start-time" value={events.eventStartTime}></input><br />
-                                <label htmlFor="end-time">End time</label><br />
-                                <input onChange={endTime} type="time" id="end-time" name="end-time" value={events.eventEndTime}></input>
-                                {/* Save knapp för att ta hand om de nya värderna samt göra om isEditing state till null igen. */}
-                                <button onClick={() => { saveEditBtn(index) }}>Save</button>
-                            </div>
-                            //  när man klickat på save knappen så ges isEditing värdet null igen, så att redigera fältet inte syns.
-                        ) : (null)
-
-                        }
+                        <div className="event-btns">
+                             <button className="event-delBtn" onClick={() => { editBtn(index) }}>Edit</button>
+                            {/* delete knapp */}
+                            <button className="event-editBtn" onClick={() => { deleteBtn(index) }}>Delete</button>
+                        </div>
                     </div>
                 );
-            }) : <p>No filter selected.</p>}
+            }) : <p>No events created.</p>}
         </div>
+        </>
     )
 }
 export default EventCalendar;
