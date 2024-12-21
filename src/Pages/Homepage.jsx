@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 
 let HomePage = () => {
     // State för localStorage
-    let [items,setItems] = useState([]);
+    let [items, setItems] = useState([]);
     // Hämtar användare ifrån localstorage
     useEffect(() => {
         const storedData = JSON.parse(localStorage.getItem('userData'));
@@ -14,7 +14,7 @@ let HomePage = () => {
             console.log(storedData)
             setItems(storedData);
         }
-    },[])
+    }, [])
 
     const [greeting, setGreeting] = useState([])
     useEffect(() => {
@@ -26,7 +26,7 @@ let HomePage = () => {
         }
         apiGreeting()
     }, [])
- 
+
     return (
         <div>
             <div className="homeContainer">
@@ -45,7 +45,25 @@ let HomePage = () => {
                     </div>
                 )
             })}
-
+            <h3 className="event-header-home">Event Calendar</h3>
+            <div className="ev-container">
+                {/* Mappa genom de första tre events om de finns med hjälp av ? (if sats)*/}
+                {items.events && items.events.length > 0 ? (
+                    items.events.slice(0, 3).map((event, index) => {
+                        return (
+                            <div className="event-data" key={index}>
+                                <p><strong>{event.eventName}</strong></p>
+                                <p>Start Date: <span className="event-dates">{event.eventStartDate}</span></p>
+                                <p>End Date: <span className="event-dates">{event.eventEndDate}</span></p>
+                                <p>Start Time: <span className="event-times">{event.eventStartTime}</span></p>
+                                <p>End Time: <span className="event-times">{event.eventEndTime}</span></p>
+                            </div>
+                        );
+                    })
+                ) : (
+                    <p>No events found</p>
+                )}
+            </div>
         </div>
     )
 }
