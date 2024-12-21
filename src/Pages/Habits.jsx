@@ -36,7 +36,9 @@ const Habits = () => {
     //använder Date.now för att skapa unikt id för varje habit och Number för att reps inte ska vara strings
     const habitObject = { id: Date.now(), reps: Number(reps), priority, title };
     console.log("New habit created:", habitObject);
-    setHabits([...habits, habitObject]);
+    
+    const updatedHabits = ([...habits, habitObject])
+    setHabits(updatedHabits)
     setTitle("");
     setReps("");
     setPriority("");
@@ -44,7 +46,7 @@ const Habits = () => {
     const storedData = JSON.parse(localStorage.getItem('userData'));
     if (storedData) {
          // Uppdatera localstorage med key events som har värdet från event state. 
-        storedData.habits = habitObject
+        storedData.habits = updatedHabits
      // Spara tillbaka den uppdaterade datan till localStorage
     localStorage.setItem('userData', JSON.stringify(storedData));
     // Uppdatera state för att reflektera förändringen
