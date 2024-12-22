@@ -1,6 +1,5 @@
 import { useState } from "react";
 import "../App.css";
-import TodoRoute from "../Pages/TodoRoute";
 import { Link } from "react-router-dom";
 
 let AddTodoList = () => {
@@ -150,11 +149,9 @@ let toggleStatus = (index) => {
     });
     setTodos(updatedStatus);
   };
-
   return (
     <>
     {/* här skapar användaren sina to-dos. */}
-  <div className="todo-container">
     <form>
       <input type="text" placeholder="Title" value={todoTitle} onChange={handleTitleChange}/>
       <input type="text" placeholder="Description" value={todoDescription} onChange={handleDescriptionChange}/>
@@ -164,15 +161,14 @@ let toggleStatus = (index) => {
           <option>Work</option>
           <option>Chores</option>
         </select>
-        <input type="time" placeholder={todoTimeEstimate} onChange={handleTimeEstimateChange}/>
+        <input id="timeTO" type="time" placeholder={todoTimeEstimate} onChange={handleTimeEstimateChange}/>
         </form>
-        <input type="date" value={todoDeadline} onChange={handleDeadlineChange}/>
-        <button className="addTodoBtn" onClick={addNewTodo}>Add new to-do</button>
+        <input id="dateTO" type="date" value={todoDeadline} onChange={handleDeadlineChange}/>
+        <button id="addTodoBtn" onClick={addNewTodo}>Add new to-do</button>
         {/* filter för att söka på kategori, ändrade till option values så att den matchar kategor som man söker på. */}
-      </div>
         <div className="todoCateFilter">
-      <select name="category" value={todoFilter.category} onChange={filterHandleChange}>
-        <option value="">All categories</option>
+      <select id="categoryTO" name="category" value={todoFilter.category} onChange={filterHandleChange}>
+        <option value="">Sort categories</option>
         <option value="Health">Health</option>
         <option value="Work">Work</option>
         <option value="Chores">Chores</option>
@@ -180,7 +176,7 @@ let toggleStatus = (index) => {
     </div>
         {/* sortering på deadline och tids estimering*/}
         <select value={sortOption} onChange={(e) => setSortOption(e.target.value)}>
-          <option value="">Sort</option>
+          <option value="">Sort T/D</option>
           <option value="deadline">Deadline</option>
           <option value="timeEstimate">Time estimate</option>
 </select>
@@ -192,23 +188,23 @@ let toggleStatus = (index) => {
     </select>
       {/* Här skriver jag sen ut hela listan baserat på inputs */}
       {/* märkte rätt snabbt att utan destructure så behövde jag skriva todo.todoCategory etc, blev lite mer "lättläst" efter det */}
-<div className="todoDiv">
+
         {sortedTodos.map((todo, index) => {
             let { todoTitle, todoDescription, todoCategory, todoTimeEstimate, todoDeadline } = todo;
           return (
-  <ul className="todoUL" key={index}>
-        <h2>{todoTitle}</h2>
-        <p>{todoDescription}</p>
-        <p>Category: {todoCategory}</p>
-        <p> {todoTimeEstimate}</p>
-        <p>Deadline: {todoDeadline}</p>
-      <label htmlFor="todoBtns">
-        <button id="statusBtn" onClick={() => toggleStatus(index)}>Done</button> {todo.status ? "Completed" : "Not completed"}
-      </label>
+  <div className="tododiv" key={index}>
+      <h2 id="todoTitle">{todoTitle}</h2>
+      <p>{todoDescription}</p>
+      <p>{todoCategory}</p>
+      <p> Estimated: {todoTimeEstimate}</p>
+      <p>Due to: {todoDeadline}</p>
+      <button id="statusBtn" onClick={() => toggleStatus(index)}>Done</button> <span className={todo.status ? "completed-text" : "not-completed-text"}>
+  {todo.status ? "Completed" : "Not completed"}
+</span>
         <button id="editingBtn" onClick={() => {editTodo(index)}}>Edit</button>
         <button id="deleteTodoBtn" onClick={() => {deleteTodo(index)}}>Delete</button>
-            
-            <Link to={`/Todo/${index+1}`} state={todo}> <p>Show more</p> </Link>
+            {/* länk för att bli skickad till en sida med ett unikt id. index+1 liksom. */}
+            <Link to={`/Todo/${index+1}`} state={todo}> <h4 id="routeP">Unique to-do</h4> </Link>
             <br></br>
             <button onClick={saveEditingBtn}>Save edits</button>
             {/* här är min editing funktion. när man klickar på edit så visas edit-formuläret ut*/}
@@ -217,20 +213,21 @@ let toggleStatus = (index) => {
             <input type="text" onChange={handleTitleChange} placeholder={todoTitle}/>
             <input type="text" onChange={handleDescriptionChange} placeholder={todoDescription}/>
           <select onChange={handleCategoryChange} placeholder={todoCategory}>
-            <option>Choose category:</option>
-            <option>Health</option>
-            <option>Work</option>
-            <option>Chores</option>
-          </select>
+          <option>Choose category:</option>
+          <option>Health</option>
+          <option>Work</option>
+          <option>Chores</option>
+        </select>
             <input type="time" value={todoTimeEstimate} onChange={handleTimeEstimateChange}/>
-              <input type="date" onChange={handleDeadlineChange} placeholder={todoDeadline}/>
+            <input type="date" onChange={handleDeadlineChange} placeholder={todoDeadline}/>
         </div>
               ) : null}
-    </ul>
+    </div>
+    
         );
         })}
-      </div>
     </>
+    
   );
 };
 
