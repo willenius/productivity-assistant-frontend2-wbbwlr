@@ -7,6 +7,42 @@ body {
     background-color: rgb(105, 141, 163);
 
 }
+/* Navbar */
+.nav-container {
+    background-color: white;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid black;
+    border-radius: 5px;
+    gap: 10px;
+    text-decoration: none;
+    padding: 10px;
+}
+
+.homepageHeader {
+    color: whitesmoke;
+}
+
+.apiQuote {
+    color: whitesmoke;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    justify-content: center;
+}
+
+
+
+a {
+    text-decoration: none;
+    color: black;
+}
+.links-navbar:hover {
+    cursor: pointer;
+    border-bottom: 1px solid black;
+}
 /* Home page */
 .homeContainer {
     display: flex;
@@ -16,11 +52,13 @@ body {
 
 }
 .navMenu {
+    background-color: white;
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
     border: 2px solid black;
+    border-radius: 5px;
     gap: 10px;
     text-decoration: none;
     padding: 10px;
@@ -34,15 +72,62 @@ body {
 .links:hover {
     color: grey;
     border-bottom: 1px solid grey;
+
+    
+}
+
+.event-header-home {
+    color: whitesmoke;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 3px solid whitesmoke;
+}
+
+.ev-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+}
+
+.event-data {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    border: 2px solid black;
+    margin: 0 auto;
+    width: 200px;
+    background: white;
+    border-radius: 12px;
 }
 /* Log in page */
+.loginHeadline {
+    color: whitesmoke;
+}
 .register-container {
     display: flex;
     justify-content: center;
     align-items: center;
     text-align: center;
+    background-color: white;
     border: 2px solid black;
-   height: 200px;
+   height: 100px;
+   border-radius: 5px;
+   margin-top: 3rem;
+   gap: 10px;
+   text-decoration: none;
+   padding: 10px;
+}
+
+.accountContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    color: whitesmoke;
 }
 
 .login-container {
@@ -50,16 +135,151 @@ body {
     justify-content: center;
     align-items: center;
     text-align: center;
+    background-color: white;
     border: 2px solid black;
-    height: 200px;
+   height: 100px;
+   border-radius: 5px;
+   margin-top: 3rem;
+   gap: 10px;
+   text-decoration: none;
+   padding: 10px;
    
+}
+
+.registerBtn:hover {
+    cursor: pointer;
+}
+
+.loginBtn:hover {
+    cursor: pointer;
 }
 
 
 /* EventCalendar */
 .past-event {
-    color: grey; 
+    color: black; 
     text-decoration: line-through; 
+    border: 2px solid black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-bottom: 10px;
+    padding: 20px;
+    margin-top: 10px;
+}
+
+.event-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    border: 2px solid black;
+    width: 500px;
+    margin-top: 100px;
+    background: white;
+    border-radius: 12px;
+}
+
+.event-form {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.event-nameInput {
+    text-align: center;
+}
+
+.event-createBtn {
+    border: 1px solid black;
+    border-radius: 4px;
+    margin: 10px;
+    color: black;
+    background-color: white;
+}
+
+.event-createBtn:hover {
+    cursor: pointer;
+    color: white;
+    background-color: black;
+    transition: 0.5s;
+}
+
+.event-select {
+    border: 2px solid black;
+    border-radius: 4px;
+    text-align: center;
+}
+
+.event-select:hover {
+    cursor: pointer;
+}
+
+.future-event {
+    border: 2px solid black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-bottom: 10px;
+    padding: 20px;
+    margin-top: 10px;
+}
+.event-btns {
+    display: flex;
+    justify-content: center;
+    margin: 5px;
+    gap: 5px;
+}
+.event-delBtn {
+    border: 2px solid black;
+    border-radius: 4px;
+    text-align: center;
+}
+
+.event-editBtn {
+    border: 2px solid black;
+    border-radius: 4px;
+    text-align: center;
+}
+
+.event-editBtn:hover {
+    cursor: pointer;
+    color: white;
+    background-color: black;
+    transition: 0.5s;
+}
+
+
+.event-delBtn:hover {
+    cursor: pointer;
+    color: white;
+    background-color: black;
+    transition: 0.5s;
+}
+
+.event-saveBtn {
+    border: 2px solid black;
+    cursor: pointer;
+    color: black;
+    transition: 0.5s;
+    border: 4px;
+}
+
+.event-title {
+    border-bottom: 2px solid black;
+    font-size: 1.5rem;
+}
+
+.event-dates {
+    border-bottom: 1px solid black;
+}
+
+.event-times {
+    border-bottom: 1px solid black;
 }
 
 /* Habits css */
@@ -115,6 +335,7 @@ body {
     justify-content: center;
     margin-top: 1rem;
     gap: 0.5rem;
+    border-bottom: 2px solid black;
 }
 
 .titleInput {
@@ -122,35 +343,133 @@ body {
 }
 
 .postHabitsBtn {
-    padding: 5px 10px;
-    border: none;
+    padding: 5px ;
     border-radius: 5px;
     cursor: pointer;
+    border: 1px solid transparent;
 }
 
 .postHabitsBtn:hover {
-    border: 1px solid black;
+    border-color: black;
 }
 
 .deleteHabitBtn {
     padding: 5px 10px;
-    border: none;
     border-radius: 5px;
     cursor: pointer;
+    border: 1px solid transparent;
 }
 
 .deleteHabitBtn:hover {
-    border: 1px solid black;
+    border-color: black;
 }
 
-.renderedHabits {
-    
-    
+.renderedHabitsContainer {
+    border: 1px solid;
 }
 
 #priority {
     text-align: center;
 }
+.topHabitsContainer {
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    border: 2px solid black;
+    margin: 0 auto;
+    width: 200px;
+    background: white;
+    border-radius: 12px;
+}
+
+.topHabitsHeader {
+    color: aliceblue;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 3px solid whitesmoke;
+}
+
+.tophabitsSubHeadline {
+    border-bottom: 2px solid black;
+}
+
+.renderedHabits {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .habitItem {
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 5px;
+  }
+  
+  .habitDetails {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+  }
+  
+  .habitRepsContainer {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 5px;
+  }
+  
+  .habitTitle {
+    font-size: 1.2rem;
+  }
+  
+  .habitPriority {
+    font-size: 1rem;
+    color: #666;
+  }
+  
+  .incHabitButton {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 0.9rem;
+  }
+
+  .decHabitButton {
+    background-color: #e53935;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 0.9rem;
+  }
+  
+  .incHabitButton:hover {
+    background-color: #246e28;
+  }
+  .decHabitButton:hover {
+    background-color: #ad1010;
+  }
+  
+  .deleteHabitBtn {
+    color: black;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 0.9rem;
+  }
+  
+  .deleteHabitBtn:hover {
+    background-color: #e53935;
+  }
 /* !!! TODO CSS !!! */
 
 #categoryToDo{

@@ -2,6 +2,7 @@ import { useState, useEffect, createContext } from "react";
 import HabitForm from "../components/Habitform";
 import HabitFilters from "../components/Habitfilters";
 import HabitList from "../components/HabitList";
+import Navbar from "../components/navbar";
 
 // Skapar Context
 export const HabitsContext = createContext();
@@ -16,13 +17,13 @@ const Habits = () => {
     const [sortField, setSortField] = useState("");
     const [sortOrder, setSortOrder] = useState("");
     
-    // State för localStorage
-    let [items, setItems] = useState([]);
+ // State för localStorage
+let [items, setItems] = useState([]);
     // Hämtar användare ifrån localstorage
-  // LocalStorage för framtida användning (om det behövs)
   useEffect(() => {
     const storedData = JSON.parse(localStorage.getItem("userData"));
-    if (storedData) {
+    if (storedData && storedData.habits) {
+        setHabits(storedData.habits)
       console.log(storedData);
     }
   }, []);
@@ -36,10 +37,24 @@ const Habits = () => {
     //använder Date.now för att skapa unikt id för varje habit och Number för att reps inte ska vara strings
     const habitObject = { id: Date.now(), reps: Number(reps), priority, title };
     console.log("New habit created:", habitObject);
-    setHabits([...habits, habitObject]);
+    
+    const updatedHabits = ([...habits, habitObject])
+    setHabits(updatedHabits)
     setTitle("");
     setReps("");
     setPriority("");
+
+    // uppdatera localstorage 
+
+    const storedData = JSON.parse(localStorage.getItem('userData'));
+    if (storedData) {
+         // Uppdatera localstorage med key events som har värdet från event state. 
+        storedData.habits = updatedHabits
+     // Spara tillbaka den uppdaterade datan till localStorage
+    localStorage.setItem('userData', JSON.stringify(storedData));
+    // Uppdatera state för att reflektera förändringen
+    // setItems(storedData);
+    }
   };
 
   // Öka reps
@@ -48,6 +63,13 @@ const Habits = () => {
       habit.id === id ? { ...habit, reps: habit.reps + 1 } : habit
     );
     setHabits(updatedHabits);
+
+          // Uppdatera localStorage
+  const storedData = JSON.parse(localStorage.getItem("userData"));
+  if (storedData) {
+    storedData.habits = updatedHabits;
+    localStorage.setItem("userData", JSON.stringify(storedData));
+  }
   };
 
   // Minska reps
@@ -56,13 +78,30 @@ const Habits = () => {
       habit.id === id && habit.reps > 0 ? { ...habit, reps: habit.reps - 1 } : habit
     );
     setHabits(updatedHabits);
+
+          // Uppdatera localStorage
+  const storedData = JSON.parse(localStorage.getItem("userData"));
+  if (storedData) {
+    storedData.habits = updatedHabits;
+    localStorage.setItem("userData", JSON.stringify(storedData));
+  }
+
   };
 
   // Ta bort en habit
   const deleteHabit = (id) => {
     const updatedHabits = habits.filter((habit) => habit.id !== id);
     setHabits(updatedHabits);
-  };
+  
+      // Uppdatera localStorage
+  const storedData = JSON.parse(localStorage.getItem("userData"));
+  if (storedData) {
+    storedData.habits = updatedHabits;
+    localStorage.setItem("userData", JSON.stringify(storedData));
+  }
+};
+
+  
 
   // samlar alla state variabler för att kunna skicka med context
   const contextValue = {
@@ -86,6 +125,8 @@ const Habits = () => {
   };
 
   return (
+      <>
+    <Navbar/>
       <HabitsContext.Provider value={contextValue}>
      <h2 className="habitsHeadline">Habits</h2>
       <div className="habitsContainer">
@@ -94,10 +135,12 @@ const Habits = () => {
         <HabitList />
       </div>
     </HabitsContext.Provider>
+    </>
   );
 };
 
 export default Habits;
+      
 
 
 

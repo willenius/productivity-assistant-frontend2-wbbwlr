@@ -70,22 +70,30 @@ let Login = () => {
     }
     return (
         <div>
+            <h1 className="loginHeadline">Productivity Assistant Application</h1>
             {!showLogIn &&
                 <form className="register-container" onSubmit={registerData}>
                     <input onChange={saveUsername} type="text" placeholder="username" required></input>
                     <input onChange={savePassword} type="password" placeholder="Password" required></input>
-                    <button type="submit">Register</button>
+                    <button className="registerBtn"type="submit">Register</button>
                 </form>
             }
+            {!showLogIn &&
 
+            <div className="accountContainer">
             <p>Already have an account?</p>
-            <button onClick={showLogInForm}>Log in</button>
+            <button className="loginBtn" onClick={showLogInForm}>Log in</button>
+            </div>
+                
+            
+            }
+
 
             {showLogIn &&
                 <form className="login-container" onSubmit={logInUser}>
                     <input onChange={saveUsername} type="text" placeholder="username" required></input>
                     <input onChange={savePassword} type="password" placeholder="Password" required></input>
-                    <button type="submit">Log in</button>
+                    <button className="loginBtn"type="submit">Log in</button>
                 </form>
             }
             {error && 

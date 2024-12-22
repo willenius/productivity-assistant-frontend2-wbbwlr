@@ -1,4 +1,4 @@
-// Component för filtrering och sortering
+// Component för val av filtrering och sortering
 import { useContext } from "react";
 import { HabitsContext } from "../Pages/Habits";
 
