@@ -1,5 +1,9 @@
-let DeleteTask = () => {
-  
-}
+import React from "react";
 
-export default DeleteTask;
+    let DeleteTodo = ({ deleteTodo, index }) => {
+        return (
+            <button onClick={() => deleteTodo(index)}>Delete</button>
+        );
+    }
+
+export default DeleteTodo;
