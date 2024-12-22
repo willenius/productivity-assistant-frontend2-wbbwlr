@@ -1,13 +1,13 @@
 import { useState, useEffect } from "react";
 import "../App.css";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Link } from "react-router-dom";
+import Navbar from "./navbar";
+
 
 let AddTodoList = () => {
-  //states för inputs
-
-  //masterstate, här samlas alla mina inputs och skrivs ut
+//masterstate, här samlas alla mina inputs och skrivs ut
   let [todos, setTodos] = useState([]);
-//inputs för alla mina todos
+  //state-inputs för alla mina todos
   let [todoTitle, setTodoTitle] = useState("");
   let [todoCategory, setTodoCategory] = useState("");
   let [todoDescription, setTodoDescription] = useState("");
@@ -15,22 +15,11 @@ let AddTodoList = () => {
   let [todoDeadline, setDeadline] = useState("");
   let [sortOption, setSortOption] = useState("");
 
-  //state för att visa ut kategori och status
+//state för att visa ut kategori och status
   let [todoFilter, setTodoFilter] = useState({category: "", status: ""});
 
 //state för edit
   let [editing, setEditing] = useState (null);
-
-  // State för localStorage
-    let [items, setItems] = useState([]);
-   // Hämtar användare ifrån localstorage
-    useEffect(() => {
-    const storedData = JSON.parse(localStorage.getItem('userData'));
-    if (storedData) {
-        console.log(storedData)
-        setItems(storedData);
-    }
-}, [])
 
   //för att hantera varje state som hämtar innehåll baserat på inputs
   let handleTitleChange = (e) => {
@@ -61,16 +50,14 @@ let AddTodoList = () => {
     }));
   };
 
-
-
   //funktion för att lägga till tasks och för att en användare MÅSTE Skriva in något i sin task. basically, om tomt så kommer det att alertas.
-  
   let addNewTodo = () => {
     if (!todoTitle || !todoDescription || !todoCategory || !todoTimeEstimate || !todoDeadline) {
       return alert("Must fill all fields!");
     }
     //innehåll för att skapa en task
     let newTodoObject = {
+      id: Date.now(),
       todoTitle,
       todoDescription,
       todoCategory,
@@ -123,7 +110,7 @@ let AddTodoList = () => {
     }
   });
 
-  //ta bort skapad task. underscore använder jag som en placeholder, .
+  //ta bort skapad task. underscore__ använder jag som en placeholder.
   function deleteTodo(index) {
     const updatedTodos = todos.filter((_, i) => i !== index);
     setTodos(updatedTodos);
@@ -140,6 +127,7 @@ let editTodo = (index) => {
     setEditing(index)
 }
 //funktion för editknapp. mappar igenom alla mina todos(kategorier) och när edit är klickat så går det att spara.
+//destructar även här, pga mer läsvänligt.
 let saveEditingBtn = () => {
   const updatedTodo = { todoTitle, todoDescription, todoCategory, todoTimeEstimate, todoDeadline, status: todos[editing].status};
   const updatedTodos = todos.map((todo, index) => {
@@ -155,20 +143,20 @@ let saveEditingBtn = () => {
 }
 
   //ändra status, om ifylld = klar.
-  let toggleStatus = (index) => {
-    const updatedStatus = todos.map((todo, i) => {
-      if (i === index) {
-        return { ...todo, status: !todo.status };
-      }
-      return todo;
+let toggleStatus = (index) => {
+  const updatedStatus = todos.map((todo, i) => {
+    if (i === index) {
+    return { ...todo, status: !todo.status };
+    }
+    return todo;
     });
     setTodos(updatedStatus);
   };
 
-
-
   return (
     <>
+    {/* här skapar användaren sina to-dos. */}
+    <Navbar />
   <div className="todo-container">
     <form>
       <input type="text" placeholder="Title" value={todoTitle} onChange={handleTitleChange}/>
@@ -184,15 +172,15 @@ let saveEditingBtn = () => {
         <input type="date" value={todoDeadline} onChange={handleDeadlineChange}/>
         <button className="addTodoBtn" onClick={addNewTodo}>Add new to-do</button>
         {/* filter för att söka på kategori, ändrade till option values så att den matchar kategor som man söker på. */}
-        </div>
-        <div>
-        <select name="category" value={todoFilter.category} onChange={filterHandleChange}>
-          <option value="">All categories</option>
-          <option value="Health">Health</option>
-          <option value="Work">Work</option>
-          <option value="Chores">Chores</option>
-          </select>
       </div>
+        <div className="todoCateFilter">
+      <select name="category" value={todoFilter.category} onChange={filterHandleChange}>
+        <option value="">All categories</option>
+        <option value="Health">Health</option>
+        <option value="Work">Work</option>
+        <option value="Chores">Chores</option>
+      </select>
+    </div>
         {/* sortering på deadline och tids estimering*/}
         <select value={sortOption} onChange={(e) => setSortOption(e.target.value)}>
           <option value="">Sort</option>
@@ -207,41 +195,40 @@ let saveEditingBtn = () => {
     </select>
       {/* Här skriver jag sen ut hela listan baserat på inputs */}
       {/* märkte rätt snabbt att utan destructure så behövde jag skriva todo.todoCategory etc, blev lite mer "lättläst" efter det */}
-      <div className="todoDiv">
+<div className="todoDiv">
         {sortedTodos.map((todo, index) => {
             let { todoTitle, todoDescription, todoCategory, todoTimeEstimate, todoDeadline } = todo;
           return (
-          <ul className="todoUL" key={index}>
-            <h2>{todoTitle}</h2>
-            <p>{todoDescription}</p>
-            <p>Category: {todoCategory}</p>
-            <p> {todoTimeEstimate}</p>
-            <p>Deadline: {todoDeadline}</p>
-            <label htmlFor="todoBtns">
-              <button id="statusBtn" onClick={() => toggleStatus(index)}>Done</button> {todo.status ? "Completed" : "Not completed"}
-            </label>
-            <button id="editingBtn" onClick={() => {editTodo(index)}}>Edit</button>
-            <button id="deleteTodoBtn" onClick={() => {deleteTodo(index)}}>Delete</button>
+  <ul className="todoUL" key={index}>
+      <h2>{todoTitle}</h2>
+        <p>{todoDescription}</p>
+        <p>Category: {todoCategory}</p>
+        <p> {todoTimeEstimate}</p>
+        <p>Deadline: {todoDeadline}</p>
+      <label htmlFor="todoBtns">
+        <button id="statusBtn" onClick={() => toggleStatus(index)}>Done</button> {todo.status ? "Completed" : "Not completed"}
+      </label>
+        <button id="editingBtn" onClick={() => {editTodo(index)}}>Edit</button>
+        <button id="deleteTodoBtn" onClick={() => {deleteTodo(index)}}>Delete</button>
+            <Link to={`/todo/${todo.id}`}>Show Todo</Link>
             <br></br>
             <button onClick={saveEditingBtn}>Save edits</button>
             {/* här är min editing funktion. när man klickar på edit så visas edit-formuläret ut*/}
             {editing === index ? (
-                <div>
-                  <input type="text" onChange={handleTitleChange} placeholder={todoTitle}/>
-                  <input type="text" onChange={handleDescriptionChange} placeholder={todoDescription}/>
-                  <select onChange={handleCategoryChange} placeholder={todoCategory}>
-                    <option>Choose category:</option>
-                    <option>Health</option>
-                    <option>Work</option>
-
-
-                    <option>Chores</option>
-                  </select>
-                  <input type="time" value={todoTimeEstimate} onChange={handleTimeEstimateChange}/>
-                  <input type="date" onChange={handleDeadlineChange} placeholder={todoDeadline}/>
-                </div>
+        <div>
+            <input type="text" onChange={handleTitleChange} placeholder={todoTitle}/>
+            <input type="text" onChange={handleDescriptionChange} placeholder={todoDescription}/>
+          <select onChange={handleCategoryChange} placeholder={todoCategory}>
+            <option>Choose category:</option>
+            <option>Health</option>
+            <option>Work</option>
+            <option>Chores</option>
+          </select>
+            <input type="time" value={todoTimeEstimate} onChange={handleTimeEstimateChange}/>
+              <input type="date" onChange={handleDeadlineChange} placeholder={todoDeadline}/>
+        </div>
               ) : null}
-           </ul>
+    </ul>
         );
         })}
       </div>
