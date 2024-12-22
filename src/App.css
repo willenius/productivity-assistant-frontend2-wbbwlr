@@ -18,6 +18,12 @@ body {
     padding: 20px;
 }
 
+.homepageHeader {
+    color: whitesmoke;
+}
+
+
+
 a {
     text-decoration: none;
     color: black;
@@ -317,6 +323,30 @@ a {
 
 #priority {
     text-align: center;
+}
+.topHabitsContainer {
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    border: 2px solid black;
+    margin: 0 auto;
+    width: 200px;
+    background: white;
+    border-radius: 12px;
+}
+
+.topHabitsHeader {
+    color: aliceblue;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 5px dotted whitesmoke;
+}
+
+.tophabitsSubHeadline {
+    border-bottom: 2px solid black;
 }
 /* !!! TODO CSS !!! */
 

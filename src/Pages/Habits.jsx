@@ -2,6 +2,7 @@ import { useState, useEffect, createContext } from "react";
 import HabitForm from "../components/Habitform";
 import HabitFilters from "../components/Habitfilters";
 import HabitList from "../components/HabitList";
+import Navbar from "../components/navbar";
 
 // Skapar Context
 export const HabitsContext = createContext();
@@ -19,10 +20,10 @@ const Habits = () => {
     // State för localStorage
     let [items, setItems] = useState([]);
     // Hämtar användare ifrån localstorage
-  // LocalStorage för framtida användning (om det behövs)
   useEffect(() => {
     const storedData = JSON.parse(localStorage.getItem("userData"));
-    if (storedData) {
+    if (storedData && storedData.habits) {
+        setHabits(storedData.habits)
       console.log(storedData);
     }
   }, []);
@@ -43,14 +44,14 @@ const Habits = () => {
     setReps("");
     setPriority("");
 
-    const storedData = JSON.parse(localStorage.getItem('userData'));
+    const storedData = JSON.parse(localStorage.getItem('userData')) || {};
     if (storedData) {
          // Uppdatera localstorage med key events som har värdet från event state. 
         storedData.habits = updatedHabits
      // Spara tillbaka den uppdaterade datan till localStorage
     localStorage.setItem('userData', JSON.stringify(storedData));
     // Uppdatera state för att reflektera förändringen
-    setItems(storedData);
+    // setItems(storedData);
     }
   };
 
@@ -98,6 +99,8 @@ const Habits = () => {
   };
 
   return (
+      <>
+    <Navbar/>
       <HabitsContext.Provider value={contextValue}>
      <h2 className="habitsHeadline">Habits</h2>
       <div className="habitsContainer">
@@ -106,10 +109,12 @@ const Habits = () => {
         <HabitList />
       </div>
     </HabitsContext.Provider>
+    </>
   );
 };
 
 export default Habits;
+      
 
 
 

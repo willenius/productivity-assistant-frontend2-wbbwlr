@@ -1,4 +1,4 @@
-// Component för rendering av filtrerade/sorterade habits
+// Component för rendering av filtrerade/sorterade habits och logiken bakom
 import { useContext } from "react";
 import { HabitsContext } from "../Pages/Habits";
 

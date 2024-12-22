@@ -30,7 +30,7 @@ let HomePage = () => {
     return (
         <div>
             <div className="homeContainer">
-                <h1>Home</h1>
+                <h1 className = "homepageHeader">Home</h1>
                 <nav className="navMenu">
                     <Link className="links" to="/Todo&Activities"><p>Todo & Activities</p></Link>
                     <Link className="links" to="/Habits"><p>Habits</p></Link>
@@ -52,7 +52,7 @@ let HomePage = () => {
                     items.events.slice(0, 3).map((event, index) => {
                         return (
                             <div className="event-data" key={index}>
-                                <p><strong>{event.eventName}</strong></p>
+                                <p><strong >{event.eventName}</strong></p>
                                 <p>Start Date: <span className="event-dates">{event.eventStartDate}</span></p>
                                 <p>End Date: <span className="event-dates">{event.eventEndDate}</span></p>
                                 <p>Start Time: <span className="event-times">{event.eventStartTime}</span></p>
@@ -64,6 +64,28 @@ let HomePage = () => {
                     <p>No events found</p>
                 )}
             </div>
+            <div>
+                <h3 className="topHabitsHeader">Top Habits</h3>
+                <div className="topHabitsContainer">
+                {items.habits && items.habits.length > 0 ? (
+                    [...items.habits]
+                    .sort((a, b) => b.reps - a.reps)
+                    .slice(0, 3)
+                    .map((habit, index) => (
+                        <div className= "habitData" key={index}>
+                            <p><strong className="tophabitsSubHeadline">{habit.title}</strong></p>
+                            <p>Repititioner: {habit.reps}</p>
+                            <p>Prioritet: {habit.priority}</p>
+                        </div>
+                    ))
+                ) : (
+                <p>No habits found</p>
+                )}
+
+                </div>
+            </div>
+            
+
         </div>
     )
 }
