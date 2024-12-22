@@ -1,8 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import "../App.css";
-import { Routes, Route, Link } from "react-router-dom";
-import Navbar from "./navbar";
-
+import TodoRoute from "../Pages/TodoRoute";
+import { Link } from "react-router-dom";
 
 let AddTodoList = () => {
 //masterstate, här samlas alla mina inputs och skrivs ut
@@ -57,7 +56,6 @@ let AddTodoList = () => {
     }
     //innehåll för att skapa en task
     let newTodoObject = {
-      id: Date.now(),
       todoTitle,
       todoDescription,
       todoCategory,
@@ -156,7 +154,6 @@ let toggleStatus = (index) => {
   return (
     <>
     {/* här skapar användaren sina to-dos. */}
-    <Navbar />
   <div className="todo-container">
     <form>
       <input type="text" placeholder="Title" value={todoTitle} onChange={handleTitleChange}/>
@@ -200,7 +197,7 @@ let toggleStatus = (index) => {
             let { todoTitle, todoDescription, todoCategory, todoTimeEstimate, todoDeadline } = todo;
           return (
   <ul className="todoUL" key={index}>
-      <h2>{todoTitle}</h2>
+        <h2>{todoTitle}</h2>
         <p>{todoDescription}</p>
         <p>Category: {todoCategory}</p>
         <p> {todoTimeEstimate}</p>
@@ -210,7 +207,8 @@ let toggleStatus = (index) => {
       </label>
         <button id="editingBtn" onClick={() => {editTodo(index)}}>Edit</button>
         <button id="deleteTodoBtn" onClick={() => {deleteTodo(index)}}>Delete</button>
-            <Link to={`/todo/${todo.id}`}>Show Todo</Link>
+            
+            <Link to={`/Todo/${index+1}`} state={todo}> <p>Show more</p> </Link>
             <br></br>
             <button onClick={saveEditingBtn}>Save edits</button>
             {/* här är min editing funktion. när man klickar på edit så visas edit-formuläret ut*/}
