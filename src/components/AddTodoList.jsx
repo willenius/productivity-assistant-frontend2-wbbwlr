@@ -88,8 +88,8 @@ let AddTodoList = () => {
 
   //jag gör en kopia av filteredtodos m spread.
   //filtrerar först på deadline (dvs datum), time estimate blir alltså närmaste och i praktiken det närmaste det alltid kommer först. 
-  //om vi har två todos, en på 1h och en på 4h så kommer den att välja tidsestimeringen närmst.
-  //filtrerar jag på deadline (datum när det senast ska vara klart) så kommer det senaste datumet. ev 
+  //om vi har två todos, en på 4h och en på 8h så kommer den att välja tidsestimeringen närmst.
+  //filtrerar jag på deadline (datum när det senast ska vara klart) så kommer det närmaste datumet till hands. den tar inte hänsyn till timeEstimate, endast deadline. 
 
   let sortedTodos = [...filteredTodos].sort((a, b) => {
     if (sortOption === "deadline") {
@@ -124,7 +124,7 @@ let editTodo = (index) => {
     setEditing(index)
 }
 //funktion för editknapp. mappar igenom alla mina todos(kategorier) och när edit är klickat så går det att spara.
-//destructar även här, pga mer läsvänligt.
+//destructar även här, pga mer läsvänlig kod.
 let saveEditingBtn = () => {
   const updatedTodo = { todoTitle, todoDescription, todoCategory, todoTimeEstimate, todoDeadline, status: todos[editing].status};
   const updatedTodos = todos.map((todo, index) => {
