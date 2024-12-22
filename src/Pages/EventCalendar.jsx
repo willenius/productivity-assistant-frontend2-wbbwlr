@@ -36,7 +36,6 @@ let EventCalendar = () => {
     useEffect(() => {
         const storedData = JSON.parse(localStorage.getItem('userData'));
         if (storedData) {
-            console.log(storedData)
             setItems(storedData);
         }
     }, [])
@@ -79,7 +78,6 @@ let EventCalendar = () => {
             // sparar ner alla input states till eventObject för att sedan lägga in det i 
             // updatedArray och sen lägga in det i event state
             let eventObject = { eventName, eventStartDate, eventEndDate, eventStartTime, eventEndTime }
-            console.log(eventObject)
             //ger updtadetArray värdet av event och eventObject.
             let updatedArray = [...event, eventObject]
 
@@ -90,7 +88,7 @@ let EventCalendar = () => {
                 storedData.events = updatedArray;
                 // Spara tillbaka den uppdaterade datan till localStorage
                 localStorage.setItem('userData', JSON.stringify(storedData));
-                // Uppdatera state för att reflektera förändringen
+                // Uppdatera state 
                 setItems(storedData);
             }
 
@@ -146,7 +144,7 @@ let EventCalendar = () => {
             storedData.events = updatedEvents;
             // Spara tillbaka den uppdaterade datan till localStorage
             localStorage.setItem('userData', JSON.stringify(storedData));
-            // Uppdatera state för att reflektera förändringen
+            // Uppdatera state 
             setItems(storedData);
         }
 
@@ -179,7 +177,7 @@ let EventCalendar = () => {
             storedData.events = updatedEvents;
             // Spara tillbaka den uppdaterade datan till localStorage
             localStorage.setItem('userData', JSON.stringify(storedData));
-            // Uppdatera state för att reflektera förändringen
+            // Uppdatera state 
             setItems(storedData);
         }
 
@@ -199,15 +197,10 @@ let EventCalendar = () => {
     // onchange för filter selecten.
     let changeFilter = (e) => {
         if (e.target.value === "Upcoming events") {
-            console.log(e.target.value)
             upcomingEv();
         } else if (e.target.value === "Previous events") {
-            console.log(e.target.value)
             previousEv();
-        } else {
-            console.log(e.target.value)
-
-        }
+        } 
     }
     //Funktion för filtreringsfunktioner. (Skulle dagens datum vara mindre än de inskickade datumet 
     //så har eventet inte skett än och filterPrioroty sätts till upcoming)
@@ -261,7 +254,6 @@ let EventCalendar = () => {
                     <input onChange={endTime} type="time" id="end-time" name="end-time" value={eventEndTime} required></input>
                 </div>
             </form>
-
             {isEditing === null ? <button className="event-createBtn" onClick={createEvent}>Create Event</button> : <button className="event-saveBtn" onClick={() => { saveEditBtn() }}>Save</button>}
             {/* filter knapp */}
             <select className="event-select" onChange={changeFilter}>
