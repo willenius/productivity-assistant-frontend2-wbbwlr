@@ -1,12 +1,12 @@
 import { useLocation } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import Navbar from "../components/navbar";
+import "../App.css";
+
 let TodoRoute = () => {
-
-
-let { id } = useParams();
-console.log(id);
-let location = useLocation();
+    let { id } = useParams();
+    console.log(id);
+    let location = useLocation();
 
 return  ( 
     <>

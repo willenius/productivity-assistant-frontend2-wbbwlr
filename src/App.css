@@ -472,24 +472,78 @@ a {
   }
 /* !!! TODO CSS !!! */
 
-#categoryToDo{
-
-}
-
 .todoDiv {
     display: flex;
     justify-content: center;
     align-items: center;
-    
+    margin: 0;
+    flex-wrap: wrap;
 }
-
-.todoUL{
-    border: 1px solid black;
-    margin: 10px;
+.tododiv {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;   
+    align-items: center;
+    border: 1px solid white;
+    border-radius: 13px;
+    margin: 10px;
+    padding: 15px;
+    background-color: white;
+    color: black;
 }
 
+#routeP {
+    border: 1px solid white;
+    padding: 10px; 
+}
 
+#addTodoBtn {
+    background-color: green;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+.routeTodo{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid white;
+    border-radius: 13px;
+    margin: 10px;
+    padding: 15px;
+    background-color: white;
+    color: black;
+}
+
+#deleteTodoBtn{
+    background-color: red;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+#editingBtn{
+    background-color: yellow;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+#statusBtn{
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    margin-top: 10px;
+    cursor: pointer; 
+
+}
+/*  */
