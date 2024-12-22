@@ -40,7 +40,6 @@ let Login = () => {
         const storedData = JSON.parse(localStorage.getItem('userData'));
         if (storedData) {
             
-            console.log(storedData);
             setItems(storedData);
             setShowLogin(!showLogIn)
         }
@@ -53,8 +52,6 @@ let Login = () => {
         const storedData = JSON.parse(localStorage.getItem('userData'));
         // kollar så att storedData matchar inputsen som användaren lagt till.
         if (storedData.username === username && storedData.password === password) {
-            console.log("du är inloggad som:",`UserName: ${storedData.username}`,`Password: ${storedData.password}`);
-
             // navigation till homePage
              navigate("/HomePage")
 
