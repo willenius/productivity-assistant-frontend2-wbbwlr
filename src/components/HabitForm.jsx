@@ -3,6 +3,7 @@ import { useContext } from "react";
 import { HabitsContext } from "../Pages/Habits";
 
 const HabitForm = () => {
+    //hämtar värden och funktioner från habits.jsx mha context
   const { title, setTitle, reps, setReps, priority, setPriority, createHabit } =
     useContext(HabitsContext);
 
@@ -10,17 +11,17 @@ const HabitForm = () => {
     <>
     <div className="habitFormContainer">
       <form className="habitForm">
-        <input type="text" placeholder="Titel" value={title} onChange={(e) => setTitle(e.target.value)}/>
-        <input type="number" placeholder="Repetitioner" value={reps} onChange={(e) => setReps(e.target.value)}/>
+        <input type="text" placeholder="Title" value={title} onChange={(e) => setTitle(e.target.value)}/>
+        <input type="number" placeholder="Repetitions" value={reps} onChange={(e) => setReps(e.target.value)}/>
 
         <select id="priority" name="priority" value={priority} onChange={(e) => setPriority(e.target.value)}>
-          <option value="">Välj prioritet</option>
-          <option value="Låg">Låg</option>
-          <option value="Mellan">Mellan</option>
-          <option value="Hög">Hög</option>
+          <option value="">Choose priority:</option>
+          <option value="low">Low</option>
+          <option value="Medium">Medium</option>
+          <option value="High">High</option>
         </select>
       </form>
-      <button className="postHabitsBtn" onClick={createHabit}>Lägg till</button>
+      <button className="postHabitsBtn" onClick={createHabit}>Add</button>
     </div>
     </>
   );

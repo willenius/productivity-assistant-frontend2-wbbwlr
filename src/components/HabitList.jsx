@@ -19,7 +19,7 @@ const HabitList = () => {
     if (sortField === "reps") {
       return sortOrder === "ascending" ? a.reps - b.reps : b.reps - a.reps;
     } else if (sortField === "priority") {
-      const priorityOrder = ["Låg", "Mellan", "Hög"];
+      const priorityOrder = ["Low", "Medium", "High"];
       return sortOrder === "ascending"
         ? priorityOrder.indexOf(a.priority) - priorityOrder.indexOf(b.priority)
         : priorityOrder.indexOf(b.priority) - priorityOrder.indexOf(a.priority);
@@ -31,20 +31,19 @@ const HabitList = () => {
 
   return (
 
-
     <ul className="renderedHabits">
       {sortedHabits.map((habit) => (
         <li key={habit.id} className="habitItem">
       <div className="habitDetails">
         <span className="habitTitle"><strong>{habit.title}</strong></span>
-        <span className="habitPriority">Prioritet: {habit.priority}</span>
+        <span className="habitPriority">Priority: {habit.priority}</span>
         <div className="habitRepsContainer">
-          <span>Repetitioner: {habit.reps}</span>
+          <span>Repetitions: {habit.reps}</span>
           <button onClick={() => increaseReps(habit.id)} className="incHabitButton">+</button>
           <button onClick={() => decreaseReps(habit.id)} className="decHabitButton">-</button>
         </div>
       </div>
-      <button className="deleteHabitBtn" onClick={() => deleteHabit(habit.id)}>Ta bort</button>
+      <button className="deleteHabitBtn" onClick={() => deleteHabit(habit.id)}>delete</button>
     </li>
       ))}
     </ul>

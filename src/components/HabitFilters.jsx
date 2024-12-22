@@ -20,32 +20,32 @@ const HabitFilters = () => {
         value={filterPriority}
         onChange={(e) => setFilterPriority(e.target.value)}
       >
-        <option value="">Alla</option>
-        <option value="Låg">Låg prioritet</option>
-        <option value="Mellan">Mellan prioritet</option>
-        <option value="Hög">Hög prioritet</option>
+        <option value="">All</option>
+        <option value="low">low priority</option>
+        <option value="Medium">Medium priority</option>
+        <option value="High">High priority</option>
       </select>
 
-      <label htmlFor="sortField">Sortera efter:</label>
+      <label htmlFor="sortField">Sort by:</label>
       <select
         id="sortField"
         value={sortField}
         onChange={(e) => setSortField(e.target.value)}
       >
-        <option value="">Inget</option>
+        <option value="">None</option>
         <option value="reps">Reps</option>
-        <option value="priority">Prioritet</option>
+        <option value="priority">Priority</option>
       </select>
 
-      <label htmlFor="sortOrder">Sorteringsordning:</label>
+      <label htmlFor="sortOrder">Sort order:</label>
       <select
         id="sortOrder"
         value={sortOrder}
         onChange={(e) => setSortOrder(e.target.value)}
       >
-        <option value="">Ingen</option>
-        <option value="ascending">Stigande</option>
-        <option value="descending">Fallande</option>
+        <option value="">none</option>
+        <option value="ascending">ascending</option>
+        <option value="descending">descending</option>
       </select>
     </div>
   );
