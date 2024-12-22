@@ -18,13 +18,11 @@ const Habits = () => {
     const [sortOrder, setSortOrder] = useState("");
     
  // State för localStorage
-let [items, setItems] = useState([]);
     // Hämtar användare ifrån localstorage
   useEffect(() => {
     const storedData = JSON.parse(localStorage.getItem("userData"));
     if (storedData && storedData.habits) {
         setHabits(storedData.habits)
-      console.log(storedData);
     }
   }, []);
 
@@ -36,7 +34,6 @@ let [items, setItems] = useState([]);
     }
     //använder Date.now för att skapa unikt id för varje habit och Number för att reps inte ska vara strings
     const habitObject = { id: Date.now(), reps: Number(reps), priority, title };
-    console.log("New habit created:", habitObject);
     
     const updatedHabits = ([...habits, habitObject])
     setHabits(updatedHabits)
@@ -100,9 +97,6 @@ let [items, setItems] = useState([]);
     localStorage.setItem("userData", JSON.stringify(storedData));
   }
 };
-
-  
-
   // samlar alla state variabler för att kunna skicka med context
   const contextValue = {
     title,
