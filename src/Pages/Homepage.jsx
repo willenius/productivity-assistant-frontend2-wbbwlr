@@ -39,8 +39,9 @@ let HomePage = () => {
             </div>
             {greeting.map((quote, index) => {
                 return (
-                    <div key={index}>
-                        <p>{quote.quote}</p>
+                    <div className="apiQuote" key={index}>
+                        <h4>Quote of the day:</h4>
+                        <p>{quote.quote}..</p>
                         <p>{quote.author}</p>
                     </div>
                 )

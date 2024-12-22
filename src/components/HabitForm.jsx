@@ -20,7 +20,7 @@ const HabitForm = () => {
           <option value="Hög">Hög</option>
         </select>
       </form>
-      <button className="postHabitsBtn" onClick={createHabit}>Klar</button>
+      <button className="postHabitsBtn" onClick={createHabit}>Lägg till</button>
     </div>
     </>
   );

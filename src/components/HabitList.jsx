@@ -30,21 +30,25 @@ const HabitList = () => {
   });
 
   return (
+
+
     <ul className="renderedHabits">
       {sortedHabits.map((habit) => (
-        <li key={habit.id}>
-          <p>
-            {habit.title}, <br></br>
-            Prioritet: {habit.priority}, <br></br>
-            Repetitioner: {habit.reps} 
-            <button onClick={() => increaseReps(habit.id)}>+</button>  
-            <button onClick={() => decreaseReps(habit.id)}>-</button>
-          </p>
-          <button className="deleteHabitBtn" onClick={() => deleteHabit(habit.id)}>ta bort</button>
-          <hr></hr>
-        </li>
+        <li key={habit.id} className="habitItem">
+      <div className="habitDetails">
+        <span className="habitTitle"><strong>{habit.title}</strong></span>
+        <span className="habitPriority">Prioritet: {habit.priority}</span>
+        <div className="habitRepsContainer">
+          <span>Repetitioner: {habit.reps}</span>
+          <button onClick={() => increaseReps(habit.id)} className="incHabitButton">+</button>
+          <button onClick={() => decreaseReps(habit.id)} className="decHabitButton">-</button>
+        </div>
+      </div>
+      <button className="deleteHabitBtn" onClick={() => deleteHabit(habit.id)}>Ta bort</button>
+    </li>
       ))}
     </ul>
+
   );
 };
 

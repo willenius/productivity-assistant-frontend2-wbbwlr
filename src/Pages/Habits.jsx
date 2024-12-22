@@ -17,8 +17,8 @@ const Habits = () => {
     const [sortField, setSortField] = useState("");
     const [sortOrder, setSortOrder] = useState("");
     
-    // State för localStorage
-    let [items, setItems] = useState([]);
+ // State för localStorage
+let [items, setItems] = useState([]);
     // Hämtar användare ifrån localstorage
   useEffect(() => {
     const storedData = JSON.parse(localStorage.getItem("userData"));
@@ -44,7 +44,9 @@ const Habits = () => {
     setReps("");
     setPriority("");
 
-    const storedData = JSON.parse(localStorage.getItem('userData')) || {};
+    // uppdatera localstorage 
+
+    const storedData = JSON.parse(localStorage.getItem('userData'));
     if (storedData) {
          // Uppdatera localstorage med key events som har värdet från event state. 
         storedData.habits = updatedHabits
@@ -61,6 +63,13 @@ const Habits = () => {
       habit.id === id ? { ...habit, reps: habit.reps + 1 } : habit
     );
     setHabits(updatedHabits);
+
+          // Uppdatera localStorage
+  const storedData = JSON.parse(localStorage.getItem("userData"));
+  if (storedData) {
+    storedData.habits = updatedHabits;
+    localStorage.setItem("userData", JSON.stringify(storedData));
+  }
   };
 
   // Minska reps
@@ -69,13 +78,30 @@ const Habits = () => {
       habit.id === id && habit.reps > 0 ? { ...habit, reps: habit.reps - 1 } : habit
     );
     setHabits(updatedHabits);
+
+          // Uppdatera localStorage
+  const storedData = JSON.parse(localStorage.getItem("userData"));
+  if (storedData) {
+    storedData.habits = updatedHabits;
+    localStorage.setItem("userData", JSON.stringify(storedData));
+  }
+
   };
 
   // Ta bort en habit
   const deleteHabit = (id) => {
     const updatedHabits = habits.filter((habit) => habit.id !== id);
     setHabits(updatedHabits);
-  };
+  
+      // Uppdatera localStorage
+  const storedData = JSON.parse(localStorage.getItem("userData"));
+  if (storedData) {
+    storedData.habits = updatedHabits;
+    localStorage.setItem("userData", JSON.stringify(storedData));
+  }
+};
+
+  
 
   // samlar alla state variabler för att kunna skicka med context
   const contextValue = {
