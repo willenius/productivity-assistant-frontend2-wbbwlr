@@ -11,7 +11,6 @@ let HomePage = () => {
     useEffect(() => {
         const storedData = JSON.parse(localStorage.getItem('userData'));
         if (storedData) {
-            console.log(storedData)
             setItems(storedData);
         }
     }, [])
